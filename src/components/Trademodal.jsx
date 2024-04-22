@@ -33,7 +33,12 @@ const Trademodal = ({ showModal, closeModal }) => {
         </select>
         <input
           type="text"
-          placeholder="enter risk:reward"
+          placeholder="enter risk:reward ratio"
+          className="w-full  p-2 text-black border-2 outline-none"
+        />
+        <input
+          type="text"
+          placeholder="risk %"
           className="w-full  p-2 text-black border-2 outline-none"
         />
 

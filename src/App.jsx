@@ -1,27 +1,20 @@
-import React, { useState } from "react";
-import Content from "./components/Content";
-import Navbar from "./components/Navbar";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
-import { styles } from "./styles";
+import { Dash, Login, Profile, Register, Strategies, Trades } from "./pages";
 
 const App = () => {
-  const [isDark, setIsDark] = useState(true);
-
-  const toggleMode = () => {
-    setIsDark((prev) => !prev);
-  };
+  // const accessToken = false;
+  //  accessToken ?  : <Login />
   return (
-    <section
-      className={
-        isDark
-          ? `${styles.primary.bgColor} ${styles.primary.textColor} min-h-screen w-full`
-          : `${styles.secondary.bgColor} ${styles.secondary.textColor} min-h-screen w-full`
-      }
-    >
-      <Navbar mode={isDark} toggleMode={toggleMode} />
-      <hr className={isDark ? `text-[#fff]` : `text-[#333]`} />
-      <Content />
-    </section>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/signup" element={<Register />} />
+      <Route path="/dashboard" element={<Dash />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/strategies" element={<Strategies />} />
+      <Route path="/trades" element={<Trades />} />
+    </Routes>
   );
 };
 
