@@ -1,4 +1,4 @@
-import { navLinks } from "../constants";
+import { authLinks } from "../constants";
 import { styles } from "../styles";
 import {
 	MdAddChart,
@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
 
-const Navbar = () => {
+const Authnav = () => {
 	const dispatch = useDispatch();
 
 	const { toggle, darkMode } = useSelector((state) => state.nav);
@@ -41,7 +41,7 @@ const Navbar = () => {
 							: `hidden md:flex gap-4 capitalize`
 					}
 				>
-					{navLinks.map((link) => {
+					{authLinks.map((link) => {
 						return (
 							<li key={link.id}>
 								<a href="">{link.name}</a>
@@ -65,4 +65,4 @@ const Navbar = () => {
 	);
 };
 
-export default Navbar;
+export default Authnav;
