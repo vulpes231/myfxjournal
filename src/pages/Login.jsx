@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Custominput from "../components/Custominput";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Errormodal, Loadingmodal, Successmodal } from "../components";
+import { loginUser, resetLogin } from "../features/loginSlice";
 
 const Login = () => {
+	const dispatch = useDispatch();
 	const initialState = {
 		username: "",
 		password: "",
 	};
 
-	const { darkMode } = useSelector((state) => state.nav);
-
 	const [form, setForm] = useState(initialState);
+	const [error, setError] = useState(null);
+
+	const { darkMode } = useSelector((state) => state.nav);
+	const { accessToken, loginLoading, loginError, statusCode } = useSelector(
+		(state) => state.login
+	);
 
 	const handleInput = (e) => {
 		const { name, value } = e.target;
@@ -20,8 +27,48 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		for (const key in form) {
+			if (form[key] === "") {
+				setError(`${key[0].toUpperCase()}${key.slice(1)} required!`);
+				return;
+			}
+		}
+
+		dispatch(loginUser(form));
 		console.log(form);
 	};
+
+	useEffect(() => {
+		if (loginError) {
+			setError(loginError);
+		}
+	}, [loginError]);
+
+	useEffect(() => {
+		let timeout;
+		if (accessToken) {
+			const now = Date.now();
+			timeout = setTimeout(() => {
+				dispatch(resetLogin());
+				sessionStorage.setItem("token", accessToken);
+				sessionStorage.setItem("lastLogin", now);
+				window.location.href = "/dashboard";
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [accessToken]);
+
+	useEffect(() => {
+		let timeout;
+		if (error) {
+			timeout = setTimeout(() => {
+				setError(null);
+				dispatch(resetLogin());
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [error]);
 
 	return (
 		<section
@@ -63,7 +110,7 @@ const Login = () => {
 						sign in
 					</button>
 
-					<p className="flex items-center gap-2">
+					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal">
 						Don't have an account?
 						<span className="text-blue-500 underline">
 							<Link to={"/signup"}>create account</Link>
@@ -71,6 +118,13 @@ const Login = () => {
 					</p>
 				</form>
 			</div>
+			{loginLoading && (
+				<Loadingmodal loadingText={"Signing In"} darkMode={darkMode} />
+			)}
+			{error && <Errormodal error={error} darkMode={darkMode} />}
+			{accessToken && (
+				<Successmodal successText={"Login successful"} darkMode={darkMode} />
+			)}
 		</section>
 	);
 };

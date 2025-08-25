@@ -13,7 +13,7 @@ const Custominput = ({
 	return (
 		<div className="flex flex-col gap-1">
 			<label
-				className="text-[14px] md:text-[16px] font-normal text-[#9f9f9f] capitalize"
+				className="text-[14px] md:text-[16px] font-normal text-[#505050] capitalize"
 				htmlFor=""
 			>
 				{label}
