@@ -12,16 +12,14 @@ import { setDarkMode, setToggle } from "../features/navSlice";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
-
 	const { toggle, darkMode } = useSelector((state) => state.nav);
-
 	return (
 		<header
-			className={
+			className={`${
 				darkMode
-					? `${styles.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} w-full`
-					: `${styles.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding} w-full`
-			}
+					? `${styles.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} `
+					: `${styles.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding}`
+			} w-full h-[70px] shadow-sm fixed top-0 z-1`}
 		>
 			<nav className={`flex justify-between items-center`}>
 				<span

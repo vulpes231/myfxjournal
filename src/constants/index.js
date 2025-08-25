@@ -8,6 +8,9 @@ const authLinks = [
 	{ id: 2, name: "strategies" },
 ];
 
+const liveServer = ``;
+const devServer = ``;
+
 function getAccessToken() {
 	const token = sessionStorage.getItem("token");
 	if (!token) {
@@ -17,4 +20,4 @@ function getAccessToken() {
 	return token;
 }
 
-export { navLinks, authLinks, getAccessToken };
+export { navLinks, authLinks, getAccessToken, liveServer, devServer };
