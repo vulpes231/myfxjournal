@@ -7,6 +7,7 @@ const initialState = {
 	loginLoading: false,
 	loginError: null,
 	statusCode: null,
+	user: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -19,6 +20,8 @@ export const loginUser = createAsyncThunk(
 					"Content-Type": "application/json",
 				},
 			});
+			console.log("data", response.data);
+			console.log("token", response.token);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -39,6 +42,7 @@ const loginSlice = createSlice({
 			state.accessToken = null;
 			state.loginError = null;
 			state.loginLoading = false;
+			state.user = null;
 		},
 	},
 	extraReducers: (builder) => {
@@ -50,6 +54,7 @@ const loginSlice = createSlice({
 				state.loginLoading = false;
 				state.loginError = null;
 				state.accessToken = action.payload.token;
+				state.user = action.payload.data;
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loginLoading = false;

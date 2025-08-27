@@ -9,7 +9,7 @@ const authLinks = [
 ];
 
 const liveServer = ``;
-const devServer = ``;
+const devServer = `http://localhost:4000`;
 
 function getAccessToken() {
 	const token = sessionStorage.getItem("token");
