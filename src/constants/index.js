@@ -14,7 +14,7 @@ const devServer = `http://localhost:4000`;
 function getAccessToken() {
 	const token = sessionStorage.getItem("token");
 	if (!token) {
-		console.log("Token not found!");
+		// console.log("Token not found!");
 		return null;
 	}
 	return token;
