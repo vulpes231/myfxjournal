@@ -72,10 +72,10 @@ const Login = () => {
 
 	return (
 		<section
-			className={`p-6 w-full h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center`}
+			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20`}
 		>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] ${
+				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] mb-10 ${
 					darkMode ? "md:bg-slate-950" : "md:bg-white"
 				}`}
 			>
@@ -110,10 +110,10 @@ const Login = () => {
 						sign in
 					</button>
 
-					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal">
+					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal ">
 						Don't have an account?
 						<span className="text-blue-500 underline">
-							<Link to={"/signup"}>create account</Link>
+							<Link to={"/signup"}>Create account</Link>
 						</span>
 					</p>
 				</form>

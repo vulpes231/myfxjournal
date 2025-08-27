@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Errormodal, Loadingmodal, Successmodal } from "../components";
 import { resetRegisterUser, signupUser } from "../features/registerSlice";
+import { styles } from "../styles";
 
 const Register = () => {
 	const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Register = () => {
 		email: "",
 		firstname: "",
 		lastname: "",
+		phone: "",
 	};
 
 	const [form, setForm] = useState(initialState);
@@ -53,7 +55,7 @@ const Register = () => {
 		if (userRegistered) {
 			timeout = setTimeout(() => {
 				dispatch(resetRegisterUser());
-				window.location.href = "/signin";
+				window.location.href = "/";
 			}, 3000);
 		}
 		return () => clearTimeout(timeout);
@@ -72,34 +74,73 @@ const Register = () => {
 
 	return (
 		<section
-			className={`p-6 w-full h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center`}
+			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20 md:pb-0`}
 		>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] ${
+				className={`flex flex-col gap-6 w-full md:w-[520px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] ${
 					darkMode ? "md:bg-slate-950" : "md:bg-white"
 				}`}
 			>
-				<h3 className="capitalize font-semibold text-[22px] md:text-[26px]">
+				<h3 className="capitalize font-semibold text-[22px] md:text-[24px] leading-8 tracking-wider">
 					Get started on your journal management journey
 				</h3>
 				<form action="" className="flex flex-col gap-4">
-					<Custominput
-						type={"text"}
-						placeHolder={"username"}
-						value={form.username}
-						handleChange={handleInput}
-						name={"username"}
-						label={"username"}
-					/>
+					<div className={styles.formHolder}>
+						<Custominput
+							type={"text"}
+							// placeHolder={"firstname"}
+							value={form.firstname}
+							handleChange={handleInput}
+							name={"firstname"}
+							label={"first name"}
+						/>
 
-					<Custominput
-						type={"password"}
-						placeHolder={"password"}
-						value={form.password}
-						handleChange={handleInput}
-						name={"password"}
-						label={"password"}
-					/>
+						<Custominput
+							type={"lastname"}
+							// placeHolder={"lastname"}
+							value={form.lastname}
+							handleChange={handleInput}
+							name={"lastname"}
+							label={"last name"}
+						/>
+					</div>
+					<div className={styles.formHolder}>
+						<Custominput
+							type={"text"}
+							// placeHolder={"username"}
+							value={form.username}
+							handleChange={handleInput}
+							name={"username"}
+							label={"username"}
+						/>
+
+						<Custominput
+							type={"password"}
+							// placeHolder={"password"}
+							value={form.password}
+							handleChange={handleInput}
+							name={"password"}
+							label={"password"}
+						/>
+					</div>
+					<div className={styles.formHolder}>
+						<Custominput
+							type={"text"}
+							placeHolder={"youremail@example.com"}
+							value={form.email}
+							handleChange={handleInput}
+							name={"email"}
+							label={"email"}
+						/>
+						<Custominput
+							type={"text"}
+							placeHolder={""}
+							value={form.phone}
+							handleChange={handleInput}
+							name={"phone"}
+							label={"phone (optional)"}
+						/>
+					</div>
 
 					<button
 						onClick={handleSubmit}
@@ -113,7 +154,7 @@ const Register = () => {
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal">
 						Already have an account?
 						<span className="text-blue-500 underline">
-							<Link to={"/"}>login now</Link>
+							<Link to={"/"}>Login now</Link>
 						</span>
 					</p>
 				</form>

@@ -56,7 +56,11 @@ const Navbar = () => {
 				</span>
 				{/* hamburger */}
 				<span onClick={() => dispatch(setToggle())} className="sm:hidden">
-					{!toggle ? <MdMenu /> : <MdClose />}{" "}
+					{!toggle ? (
+						<MdMenu className="w-[18px] h-[18px]" />
+					) : (
+						<MdClose className="w-[18px] h-[18px]" />
+					)}{" "}
 				</span>
 			</nav>
 		</header>

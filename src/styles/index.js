@@ -26,6 +26,7 @@ const styles = {
 		outline: "outline-none",
 		outline: "border-none",
 	},
+	formHolder: "flex flex-col gap-2 md:flex-row gap-4",
 };
 
 export { styles };
