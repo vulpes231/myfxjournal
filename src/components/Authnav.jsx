@@ -9,6 +9,7 @@ import {
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
+import { logo } from "../assets";
 
 const Authnav = () => {
 	const dispatch = useDispatch();
@@ -19,8 +20,8 @@ const Authnav = () => {
 		<header
 			className={
 				darkMode
-					? `${styles.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} w-full`
-					: `${styles.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding} w-full`
+					? `${styles.nav.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} w-full`
+					: `${styles.nav.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding} w-full`
 			}
 		>
 			<nav className={`flex justify-between items-center`}>
@@ -31,15 +32,15 @@ const Authnav = () => {
 							: `flex text-xl items-center gap-2 ${styles.secondary.textColor}`
 					}
 				>
-					<MdAddChart />
-					<h1 className="font-bold uppercase">vfx</h1>
+					<img src={logo} alt="" className="w-[40px]" />
+					<h1 className="font-bold uppercase text-[20px]">Journo</h1>
 				</span>
 				<ul
-					className={
+					className={`${
 						toggle
 							? `flex flex-col gap-4 absolute top-[80px] left-0 w-full capitalize `
-							: `hidden md:flex gap-4 capitalize`
-					}
+							: `hidden md:flex gap-8 capitalize`
+					} text-[14px] font-medium`}
 				>
 					{authLinks.map((link) => {
 						return (
@@ -52,8 +53,19 @@ const Authnav = () => {
 				<span
 					className={`hidden md:flex items-center cursor-pointer ${styles.secondary.gap}`}
 				>
-					<span onClick={() => dispatch(setDarkMode())}>
-						{darkMode ? <MdDarkMode /> : <MdLightMode />}
+					<span
+						// className={`${darkMode ? "bg-white" : "bg-black"}`}
+						onClick={() => dispatch(setDarkMode())}
+					>
+						{darkMode ? (
+							<MdDarkMode
+								className={`bg-white text-[#333] w-6 h-6 p-1 rounded-[10px]`}
+							/>
+						) : (
+							<MdLightMode
+								className={`${styles.button.primary.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
+							/>
+						)}
 					</span>
 				</span>
 				{/* hamburger */}

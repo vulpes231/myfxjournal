@@ -1,4 +1,12 @@
 const styles = {
+	nav: {
+		primary: {
+			bgColor: "bg-slate-950/70",
+		},
+		secondary: {
+			bgColor: "bg-[#1FA9D2]/10",
+		},
+	},
 	primary: {
 		bgColor: "bg-slate-950/95",
 		textColor: "text-[#fff]",
@@ -27,6 +35,14 @@ const styles = {
 		outline: "border-none",
 	},
 	formHolder: "flex flex-col gap-2 md:flex-row gap-4",
+	button: {
+		primary: {
+			bgColor: "bg-[#1FA9D2] hover:bg-[#1FA9D2]/80",
+		},
+		secondary: {
+			bgColor: "bg-[#1FA9D2]/80 hover:bg-[#1FA9D2]/70",
+		},
+	},
 };
 
 export { styles };

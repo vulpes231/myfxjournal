@@ -5,7 +5,8 @@ const navLinks = [
 
 const authLinks = [
 	{ id: 1, name: "dashboard" },
-	{ id: 2, name: "strategies" },
+	{ id: 2, name: "trades" },
+	{ id: 3, name: "strategies" },
 ];
 
 const liveServer = ``;

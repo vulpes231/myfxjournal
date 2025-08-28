@@ -15,7 +15,7 @@ const Dash = () => {
 					: `${styles.secondary.bgColor} ${styles.secondary.textColor} min-h-screen w-full`
 			}
 		>
-			<hr className={darkMode ? `text-[#fff]` : `text-[#333]`} />
+			{/* <hr className={darkMode ? `text-[#fff]` : `text-[#333]`} /> */}
 			<Content />
 		</section>
 	);
