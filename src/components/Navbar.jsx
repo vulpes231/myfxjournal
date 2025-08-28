@@ -1,56 +1,67 @@
 import { navLinks } from "../constants";
 import { styles } from "../styles";
-import {
-	MdAddChart,
-	MdClose,
-	MdDarkMode,
-	MdLightMode,
-	MdMenu,
-} from "react-icons/md";
+import { MdClose, MdDarkMode, MdLightMode, MdMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
-import { logo } from "../assets";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Logo from "./Logo";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const { toggle, darkMode } = useSelector((state) => state.nav);
 	return (
 		<header
-			className={`${
-				darkMode
-					? `${styles.nav.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} `
-					: `${styles.nav.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding}`
-			} w-full h-[70px] shadow-sm fixed top-0 z-1 flex items-center`}
+			className={`w-full h-[70px] shadow-sm fixed top-0 z-1 flex items-center bg-white dark:bg-slate-900 text-slate-600 dark:text-gray-300 px-4`}
 		>
 			<nav
 				className={`flex justify-between items-center w-full md:w-[1100px] md:mx-auto`}
 			>
-				<span
-					className={
-						darkMode
-							? `flex text-xl items-center gap-2 ${styles.primary.textColor}`
-							: `flex text-xl items-center gap-2 ${styles.secondary.textColor}`
-					}
-				>
-					<img src={logo} alt="" className="w-[40px]" />
-					<h1 className="font-bold uppercase">journo</h1>
-				</span>
+				<Logo />
+
 				<ul
-					className={`${
+					className={`text-[14px] font-medium capitalize ${
 						toggle
-							? `flex flex-col gap-4 absolute top-[80px] left-0 w-full capitalize `
-							: `hidden md:flex gap-10 items-center capitalize`
-					} text-[14px] font-medium text-[#505050]`}
+							? "absolute top-[71px] left-0 w-full flex-col gap-4"
+							: "hidden md:flex gap-10 items-center"
+					}`}
 				>
-					{navLinks.map((link) => {
-						return (
-							<li key={link.id} className="hover:text-[#1FA9D2]">
-								<a href="">{link.name}</a>
+					<AnimatePresence>
+						{toggle && (
+							<motion.div
+								initial={{ opacity: 0, y: -20 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -20 }}
+								transition={{ duration: 0.3, ease: "easeOut" }}
+								className="flex flex-col gap-4 md:hidden w-full px-6 py-4 bg-white dark:bg-black shadow-md"
+							>
+								{navLinks.map((link) => (
+									<motion.li
+										key={link.id}
+										initial={{ opacity: 0, x: -10 }}
+										animate={{ opacity: 1, x: 0 }}
+										exit={{ opacity: 0, x: -10 }}
+										transition={{ duration: 0.2, delay: link.id * 0.05 }}
+										className="hover:text-[#1FA9D2] cursor-pointer"
+									>
+										<a href="#">{link.name}</a>
+									</motion.li>
+								))}
+							</motion.div>
+						)}
+					</AnimatePresence>
+
+					{/* Desktop links */}
+					{!toggle &&
+						navLinks.map((link) => (
+							<li
+								key={link.id}
+								className="hidden md:block hover:text-[#1FA9D2] cursor-pointer"
+							>
+								<a href="#">{link.name}</a>
 							</li>
-						);
-					})}
+						))}
 				</ul>
+
 				<div className="flex items-center gap-4">
 					<span
 						className={`flex items-center cursor-pointer ${styles.secondary.gap}`}
@@ -62,7 +73,7 @@ const Navbar = () => {
 								/>
 							) : (
 								<MdLightMode
-									className={`${styles.button.primary.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
+									className={`${styles.button.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
 								/>
 							)}
 						</span>

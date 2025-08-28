@@ -36,12 +36,8 @@ const styles = {
 	},
 	formHolder: "flex flex-col gap-2 md:flex-row gap-4",
 	button: {
-		primary: {
-			bgColor: "bg-[#1FA9D2] hover:bg-[#1FA9D2]/50 cursor-pointer shadow-sm",
-		},
-		secondary: {
-			bgColor: "bg-[#1FA9D2]/80 hover:bg-[#1FA9D2]/70 cursor-pointer shadow-sm",
-		},
+		bgColor:
+			"bg-[#1FA9D2] hover:bg-[#1FA9D2]/50 text-white cursor-pointer shadow-sm",
 	},
 	text: {
 		primary: {

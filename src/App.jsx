@@ -20,7 +20,7 @@ const App = () => {
 	return (
 		<>
 			{!token ? <Navbar /> : <Authnav />}
-			<div className="bg-slate-50 dark:bg-slate-950">
+			<div className="bg-slate-50 dark:bg-[#000] text-gray-600 dark:text-gray-300">
 				<Routes>
 					<Route path="/" element={<Login />} />
 					<Route path="/signup" element={<Register />} />

@@ -72,11 +72,9 @@ const Login = () => {
 	}, [error]);
 
 	return (
-		<section
-			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20`}
-		>
+		<section className={`p-6 w-full h-screen pt-28 md:pt-32`}>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] mb-10 md:mt-10 bg-[#fff] dark:bg-[#000]`}
+				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] mb-10 md:mt-10 md:bg-[#fff] md:dark:bg-slate-900`}
 			>
 				<h3 className="font-bold text-[22px] md:text-[26px]">
 					Sign in to your Journal.
@@ -102,9 +100,9 @@ const Login = () => {
 
 					<button
 						onClick={handleSubmit}
-						className={` p-2 h-[40px] capitalize rounded-sm font-semibold text-[14px] md:text-[16px] mt-5`}
+						className={`w-full h-[44px] md:h-[48px] px-4 py-2 capitalize rounded-md font-semibold text-sm md:text-base text-white bg-[#1FA9D2] hover:bg-[#178BB0] active:bg-[#137490] dark:bg-[#1FA9D2] dark:hover:bg-[#178BB0] shadow-sm transition-all duration-200 ease-in-out mt-5`}
 					>
-						sign in
+						Sign in
 					</button>
 
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal ">

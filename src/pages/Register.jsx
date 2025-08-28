@@ -73,11 +73,9 @@ const Register = () => {
 	}, [error]);
 
 	return (
-		<section
-			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20 md:pb-0`}
-		>
+		<section className={`p-6 w-full min-h-screen pt-28 md:pt-20`}>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[520px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] md:mt-10 ${
+				className={`flex flex-col gap-6 w-full md:w-[580px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] md:mt-10 ${
 					darkMode ? "md:bg-slate-950" : "md:bg-[#fff]"
 				}`}
 			>
@@ -144,11 +142,7 @@ const Register = () => {
 
 					<button
 						onClick={handleSubmit}
-						className={`${
-							darkMode
-								? "bg-white text-[#333]"
-								: `${styles.button.secondary.bgColor} text-[#fff]`
-						} p-2 h-[40px] capitalize rounded-sm font-semibold text-[14px] md:text-[16px] mt-5`}
+						className={`w-full h-[44px] md:h-[48px] px-4 py-2 capitalize rounded-md font-semibold text-sm md:text-base text-white bg-[#1FA9D2] hover:bg-[#178BB0] active:bg-[#137490] dark:bg-[#1FA9D2] dark:hover:bg-[#178BB0] shadow-sm transition-all duration-200 ease-in-out mt-5`}
 					>
 						sign up
 					</button>

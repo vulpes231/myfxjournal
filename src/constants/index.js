@@ -9,6 +9,12 @@ const authLinks = [
 	{ id: 2, name: "trades" },
 	{ id: 3, name: "strategies" },
 ];
+const footerLinks = [
+	{ id: 1, name: "privacy" },
+	{ id: 2, name: "terms & conditions" },
+	{ id: 3, name: "faq" },
+	{ id: 4, name: "support" },
+];
 
 const liveServer = ``;
 const devServer = `http://localhost:4000`;
@@ -22,4 +28,11 @@ function getAccessToken() {
 	return token;
 }
 
-export { navLinks, authLinks, getAccessToken, liveServer, devServer };
+export {
+	navLinks,
+	authLinks,
+	getAccessToken,
+	liveServer,
+	devServer,
+	footerLinks,
+};
