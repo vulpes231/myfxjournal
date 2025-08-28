@@ -77,12 +77,12 @@ const Register = () => {
 			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20 md:pb-0`}
 		>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[520px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] ${
-					darkMode ? "md:bg-slate-950" : "md:bg-white"
+				className={`flex flex-col gap-6 w-full md:w-[520px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] md:mt-10 ${
+					darkMode ? "md:bg-slate-950" : "md:bg-[#fff]"
 				}`}
 			>
-				<h3 className="capitalize font-semibold text-[22px] md:text-[24px] leading-8 tracking-wider">
-					Get started on your journal management journey
+				<h3 className="capitalize font-bold text-[22px] md:text-[24px]">
+					Get started on your journey.
 				</h3>
 				<form action="" className="flex flex-col gap-4">
 					<div className={styles.formHolder}>
@@ -145,7 +145,9 @@ const Register = () => {
 					<button
 						onClick={handleSubmit}
 						className={`${
-							darkMode ? "bg-white text-[#333]" : "bg-black text-[#fff]"
+							darkMode
+								? "bg-white text-[#333]"
+								: `${styles.button.secondary.bgColor} text-[#fff]`
 						} p-2 h-[40px] capitalize rounded-sm font-semibold text-[14px] md:text-[16px] mt-5`}
 					>
 						sign up
@@ -153,7 +155,7 @@ const Register = () => {
 
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal">
 						Already have an account?
-						<span className="text-blue-500 underline">
+						<span className={`${styles.text.primary.textColor} underline`}>
 							<Link to={"/"}>Login now</Link>
 						</span>
 					</p>

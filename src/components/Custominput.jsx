@@ -21,7 +21,7 @@ const Custominput = ({
 			<input
 				type={type}
 				name={name}
-				className={`${customClass} ${styles.secondary.border} w-full p-2 h-[40px] placeholder:text-[#333]/80 placeholder:lowercase placeholder:text-[12px] text-[16px]`}
+				className={`${customClass} ${styles.secondary.border} w-full p-2 h-[40px] placeholder:text-[#333]/80 placeholder:lowercase placeholder:text-[12px] text-[16px] rounded-[5px] focus:border-2`}
 				value={value}
 				onChange={handleChange}
 				placeholder={placeHolder}

@@ -1,25 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Dash, Login, Profile, Register, Strategies, Trades } from "./pages";
-import { Authnav, Navbar } from "./components";
+import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
 import { useSelector } from "react-redux";
-import { styles } from "./styles";
 
 const App = () => {
 	const token = getAccessToken();
 	const { darkMode } = useSelector((state) => state.nav);
-	// styles
+
+	useEffect(() => {
+		if (darkMode) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+	}, [darkMode]);
+
 	return (
 		<>
 			{!token ? <Navbar /> : <Authnav />}
-			<div
-				className={`${
-					darkMode
-						? `${styles.primary.bgColor} ${styles.primary.textColor}`
-						: `bg-slate-100 ${styles.secondary.textColor}`
-				}`}
-			>
+			<div className="bg-slate-50 dark:bg-slate-950">
 				<Routes>
 					<Route path="/" element={<Login />} />
 					<Route path="/signup" element={<Register />} />
@@ -31,6 +32,7 @@ const App = () => {
 					/>
 					<Route path="/trades" element={token ? <Trades /> : <Login />} />
 				</Routes>
+				{!token ? <Footer /> : null}
 			</div>
 		</>
 	);

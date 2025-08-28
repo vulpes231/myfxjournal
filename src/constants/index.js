@@ -1,6 +1,7 @@
 const navLinks = [
-	{ id: 1, name: "support" },
+	{ id: 1, name: "home" },
 	{ id: 2, name: "pricing" },
+	{ id: 3, name: "support" },
 ];
 
 const authLinks = [

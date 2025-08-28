@@ -4,11 +4,11 @@ const styles = {
 			bgColor: "bg-slate-950/70",
 		},
 		secondary: {
-			bgColor: "bg-[#1FA9D2]/10",
+			bgColor: "bg-[#fff]",
 		},
 	},
 	primary: {
-		bgColor: "bg-slate-950/95",
+		bgColor: "",
 		textColor: "text-[#fff]",
 		border: "border-2 border-[#fff]",
 		padding: "p-6",
@@ -37,11 +37,19 @@ const styles = {
 	formHolder: "flex flex-col gap-2 md:flex-row gap-4",
 	button: {
 		primary: {
-			bgColor: "bg-[#1FA9D2] hover:bg-[#1FA9D2]/80",
+			bgColor: "bg-[#1FA9D2] hover:bg-[#1FA9D2]/50 cursor-pointer shadow-sm",
 		},
 		secondary: {
-			bgColor: "bg-[#1FA9D2]/80 hover:bg-[#1FA9D2]/70",
+			bgColor: "bg-[#1FA9D2]/80 hover:bg-[#1FA9D2]/70 cursor-pointer shadow-sm",
 		},
+	},
+	text: {
+		primary: {
+			textColor: "text-[#1FA9D2]",
+		},
+		// secondary: {
+		// 	textColor: "text-[#fff]",
+		// },
 	},
 };
 

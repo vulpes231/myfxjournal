@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Errormodal, Loadingmodal, Successmodal } from "../components";
 import { loginUser, resetLogin } from "../features/loginSlice";
+import { styles } from "../styles";
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -75,12 +76,10 @@ const Login = () => {
 			className={`p-6 w-full min-h-screen mt-[70px] md:mt-[0px] md:flex md:items-center md:justify-center pb-20`}
 		>
 			<div
-				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-sm md:p-10 md:rounded-[10px] mb-10 ${
-					darkMode ? "md:bg-slate-950" : "md:bg-white"
-				}`}
+				className={`flex flex-col gap-6 w-full md:w-[480px] md:mx-auto  md:shadow-md md:p-10 md:rounded-[10px] mb-10 md:mt-10 bg-[#fff] dark:bg-[#000]`}
 			>
-				<h3 className="capitalize font-semibold text-[22px] md:text-[26px]">
-					sign in to your journal
+				<h3 className="font-bold text-[22px] md:text-[26px]">
+					Sign in to your Journal.
 				</h3>
 				<form action="" className="flex flex-col gap-4">
 					<Custominput
@@ -103,28 +102,22 @@ const Login = () => {
 
 					<button
 						onClick={handleSubmit}
-						className={`${
-							darkMode ? "bg-white text-[#333]" : "bg-black text-[#fff]"
-						} p-2 h-[40px] capitalize rounded-sm font-semibold text-[14px] md:text-[16px] mt-5`}
+						className={` p-2 h-[40px] capitalize rounded-sm font-semibold text-[14px] md:text-[16px] mt-5`}
 					>
 						sign in
 					</button>
 
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal ">
 						Don't have an account?
-						<span className="text-blue-500 underline">
+						<span className={`${styles.text.primary.textColor} underline`}>
 							<Link to={"/signup"}>Create account</Link>
 						</span>
 					</p>
 				</form>
 			</div>
-			{loginLoading && (
-				<Loadingmodal loadingText={"Signing In"} darkMode={darkMode} />
-			)}
-			{error && <Errormodal error={error} darkMode={darkMode} />}
-			{accessToken && (
-				<Successmodal successText={"Login successful"} darkMode={darkMode} />
-			)}
+			{loginLoading && <Loadingmodal loadingText={"Signing In"} />}
+			{error && <Errormodal error={error} />}
+			{accessToken && <Successmodal successText={"Login successful"} />}
 		</section>
 	);
 };
