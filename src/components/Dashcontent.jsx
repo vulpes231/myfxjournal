@@ -14,8 +14,6 @@ const Content = () => {
 		setshowModal(false);
 	};
 
-	// styles
-
 	return (
 		<section className="w-full p-6 flex flex-col gap-6">
 			<div className="flex justify-between  ">
