@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Infocard from "./Infocard";
 import Trademodal from "./Trademodal";
 import { format } from "date-fns";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styles } from "../styles";
+import { getAccessToken } from "../constants";
+import { getUserInfo } from "../features/userSlice";
 const Content = () => {
+	const token = getAccessToken();
+	const dispatch = useDispatch();
 	const [showModal, setshowModal] = useState(false);
 
 	const { darkMode } = useSelector((state) => state.nav);
+	const { user } = useSelector((state) => state.user);
+
 	const currentLogin = JSON.parse(sessionStorage.getItem("lastLogin"));
 
 	const closeModal = () => {
 		setshowModal(false);
 	};
+
+	useEffect(() => {
+		if (token) {
+			console.log(token);
+			dispatch(getUserInfo());
+		}
+	}, [token]);
 
 	return (
 		<section className="w-full p-6 flex flex-col gap-6">

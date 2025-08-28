@@ -1,12 +1,15 @@
 import axios from "axios";
 import { devServer, getAccessToken } from "../constants";
 
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
 	user: null,
 	getUserLoading: false,
 	getUserError: null,
+	logoutLoading: false,
+	logoutError: null,
+	loggedOut: false,
 };
 
 export const getUserInfo = createAsyncThunk(
@@ -34,10 +37,45 @@ export const getUserInfo = createAsyncThunk(
 	}
 );
 
+export const logoutUser = createAsyncThunk(
+	"user/logoutUser",
+	async (_, { rejectWithValue }) => {
+		try {
+			const url = `${devServer}/user/logout`;
+			const token = getAccessToken();
+			const response = await axios.post(
+				url,
+				{},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
 const userSlice = createSlice({
 	name: "user",
 	initialState,
-	reducers: {},
+	reducers: {
+		resetLogout(state) {
+			state.loggedOut = false;
+			state.logoutError = null;
+			state.logoutLoading = false;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getUserInfo.pending, (state) => {
@@ -53,7 +91,22 @@ const userSlice = createSlice({
 				state.getUserError = action.error.message;
 				state.user = null;
 			});
+		builder
+			.addCase(logoutUser.pending, (state) => {
+				state.logoutLoading = true;
+			})
+			.addCase(logoutUser.fulfilled, (state) => {
+				state.logoutLoading = false;
+				state.logoutError = null;
+				state.loggedOut = true;
+			})
+			.addCase(logoutUser.rejected, (state, action) => {
+				state.logoutLoading = false;
+				state.logoutError = action.error.message;
+				state.loggedOut = false;
+			});
 	},
 });
 
+export const { resetLogout } = userSlice.actions;
 export default userSlice.reducer;

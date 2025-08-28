@@ -1,7 +1,7 @@
 import axios from "axios";
 import { devServer, getAccessToken } from "../constants";
 
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
 	userWallets: null,
