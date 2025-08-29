@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
 import { logo } from "../assets";
+import Logo from "./Logo";
 
 const Authnav = () => {
 	const dispatch = useDispatch();
@@ -18,23 +19,12 @@ const Authnav = () => {
 
 	return (
 		<header
-			className={
-				darkMode
-					? `${styles.nav.primary.bgColor} ${styles.primary.textColor} ${styles.primary.padding} w-full`
-					: `${styles.nav.secondary.bgColor} ${styles.secondary.textColor} ${styles.primary.padding} w-full`
-			}
+			className={`w-full h-[70px] shadow-sm fixed top-0 z-1 flex items-center bg-white dark:bg-slate-900 text-slate-600 dark:text-gray-300 px-4`}
 		>
-			<nav className={`flex justify-between items-center`}>
-				<span
-					className={
-						darkMode
-							? `flex text-xl items-center gap-2 ${styles.primary.textColor}`
-							: `flex text-xl items-center gap-2 ${styles.secondary.textColor}`
-					}
-				>
-					<img src={logo} alt="" className="w-[40px]" />
-					<h1 className="font-bold uppercase text-[20px]">Journo</h1>
-				</span>
+			<nav
+				className={`flex justify-between items-center w-full md:w-[1100px] md:mx-auto`}
+			>
+				<Logo />
 				<ul
 					className={`${
 						toggle
@@ -53,17 +43,14 @@ const Authnav = () => {
 				<span
 					className={`hidden md:flex items-center cursor-pointer ${styles.secondary.gap}`}
 				>
-					<span
-						// className={`${darkMode ? "bg-white" : "bg-black"}`}
-						onClick={() => dispatch(setDarkMode())}
-					>
+					<span onClick={() => dispatch(setDarkMode())}>
 						{darkMode ? (
 							<MdDarkMode
 								className={`bg-white text-[#333] w-6 h-6 p-1 rounded-[10px]`}
 							/>
 						) : (
 							<MdLightMode
-								className={`${styles.button.primary.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
+								className={`${styles.button.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
 							/>
 						)}
 					</span>

@@ -3,10 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import { Dash, Login, Profile, Register, Analytics, Trades } from "./pages";
 import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "./features/userSlice";
 
 const App = () => {
 	const token = getAccessToken();
+	const dispatch = useDispatch();
 	const { darkMode } = useSelector((state) => state.nav);
 
 	useEffect(() => {
@@ -16,6 +18,13 @@ const App = () => {
 			document.documentElement.classList.remove("dark");
 		}
 	}, [darkMode]);
+
+	useEffect(() => {
+		if (token) {
+			// console.log(token);
+			dispatch(getUserInfo());
+		}
+	}, [token]);
 
 	return (
 		<>

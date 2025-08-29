@@ -3,7 +3,7 @@ import { devServer, getAccessToken } from "../constants";
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = {
+export const initialState = {
 	user: null,
 	getUserLoading: false,
 	getUserError: null,
@@ -24,7 +24,7 @@ export const getUserInfo = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
+			// console.log(response.data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -84,12 +84,14 @@ const userSlice = createSlice({
 			.addCase(getUserInfo.fulfilled, (state, action) => {
 				state.getUserLoading = false;
 				state.getUserError = null;
-				state.user = action.payload;
+				state.user = action.payload.data;
+				localStorage.setItem("user", JSON.stringify(action.payload.data));
 			})
 			.addCase(getUserInfo.rejected, (state, action) => {
 				state.getUserLoading = false;
 				state.getUserError = action.error.message;
 				state.user = null;
+				localStorage.removeItem("user");
 			});
 		builder
 			.addCase(logoutUser.pending, (state) => {
@@ -107,6 +109,16 @@ const userSlice = createSlice({
 			});
 	},
 });
+
+export const selectUserSlice = (state) => state.user; // full slice
+export const selectCurrentUser = (state) => state.user.user;
+export const selectUserLoading = (state) => state.user.getUserLoading;
+export const selectUserError = (state) => state.user.getUserError;
+export const selectIsLoggedIn = (state) => Boolean(state.user.user);
+
+// Derived selectors
+export const selectUsername = (state) => state.user.user?.username ?? "Guest";
+export const selectUserEmail = (state) => state.user.user?.email ?? null;
 
 export const { resetLogout } = userSlice.actions;
 export default userSlice.reducer;
