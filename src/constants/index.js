@@ -1,13 +1,13 @@
 const navLinks = [
-	{ id: 1, name: "home" },
-	{ id: 2, name: "pricing" },
-	{ id: 3, name: "support" },
+	{ id: 1, name: "home", path: "/" },
+	{ id: 2, name: "pricing", path: "/pricing" },
+	{ id: 3, name: "support", path: "/support" },
 ];
 
 const authLinks = [
-	{ id: 1, name: "dashboard" },
-	{ id: 2, name: "trades" },
-	{ id: 3, name: "strategies" },
+	{ id: 1, name: "dashboard", path: "/dashboard" },
+	{ id: 2, name: "trades", path: "/trades" },
+	{ id: 3, name: "analytics", path: "/analytics" },
 ];
 const footerLinks = [
 	{ id: 1, name: "privacy" },
@@ -22,7 +22,6 @@ const devServer = `http://localhost:4000`;
 function getAccessToken() {
 	const token = sessionStorage.getItem("token");
 	if (!token) {
-		// console.log("Token not found!");
 		return null;
 	}
 	return token;

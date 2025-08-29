@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Dash, Login, Profile, Register, Strategies, Trades } from "./pages";
+import { Dash, Login, Profile, Register, Analytics, Trades } from "./pages";
 import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const App = () => {
 					<Route path="/profile" element={token ? <Profile /> : <Login />} />
 					<Route
 						path="/strategies"
-						element={token ? <Strategies /> : <Login />}
+						element={token ? <Analytics /> : <Login />}
 					/>
 					<Route path="/trades" element={token ? <Trades /> : <Login />} />
 				</Routes>
