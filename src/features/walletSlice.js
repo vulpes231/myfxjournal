@@ -21,7 +21,7 @@ export const getUserWallets = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log(response.data);
+			// console.log(response.data);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -46,7 +46,7 @@ const walletSlice = createSlice({
 			.addCase(getUserWallets.fulfilled, (state, action) => {
 				state.getUserWalletLoading = false;
 				state.getUserWalletError = null;
-				state.userWallets = action.payload;
+				state.userWallets = action.payload.data;
 			})
 			.addCase(getUserWallets.rejected, (state, action) => {
 				state.getUserWalletLoading = false;

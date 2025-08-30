@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Infocard from "./Infocard";
 import Trademodal from "./Trademodal";
 import { format } from "date-fns";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUsername } from "../features/userSlice";
-import { selectUserWallets } from "../features/walletSlice";
+import { getUserWallets, selectUserWallets } from "../features/walletSlice";
+import { getAccessToken } from "../constants";
 
 const Content = () => {
+	const token = getAccessToken();
+	const dispatch = useDispatch();
 	const [showModal, setshowModal] = useState(false);
+	const [selectedWalletId, setSelectedWalletId] = useState(null);
+	const [activeWallet, setActiveWallet] = useState(null);
 
 	const username = useSelector(selectUsername);
 	const userWallets = useSelector(selectUserWallets);
@@ -17,6 +22,26 @@ const Content = () => {
 	const closeModal = () => {
 		setshowModal(false);
 	};
+
+	const handleSelect = (e) => {
+		// console.log(e.target);
+		setSelectedWalletId(e.target.value);
+	};
+
+	useEffect(() => {
+		if (selectedWalletId) {
+			const wallet = userWallets.find(
+				(wallet) => wallet._id === selectedWalletId
+			);
+			setActiveWallet(wallet);
+		}
+	}, [selectedWalletId]);
+
+	useEffect(() => {
+		if (token) {
+			dispatch(getUserWallets());
+		}
+	}, [token]);
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 ">
@@ -38,15 +63,36 @@ const Content = () => {
 					</button>
 				</div>
 				<div className="bg-slate-200 rounded-md text-black flex flex-col items-center capitalize p-4">
-					<p className="font-bold">Starting Balance</p>
-					<p>5000</p>
+					<span>
+						<select
+							name="selectedWalletId"
+							onChange={handleSelect}
+							value={selectedWalletId}
+						>
+							<option value="">Wallet</option>
+							{userWallets &&
+								userWallets.length > 0 &&
+								userWallets.map((wallet) => {
+									return (
+										<option value={wallet._id} key={wallet._id}>
+											{wallet.name}
+										</option>
+									);
+								})}
+						</select>
+					</span>
+					<p className="font-bold">Balance</p>
+					<p>{parseFloat(activeWallet?.balance).toFixed(2) || "0.00"}</p>
 				</div>
 
 				{/* insights */}
 				<div className="flex justify-between capitalize gap-4">
 					<Infocard title={"Trades"} sub={"0"} />
-					<Infocard title={"Winrate"} sub={"0%"} />
-					<Infocard title={"Profit / Loss"} sub={"+0r"} />
+					<Infocard title={"Winrate"} sub={`${activeWallet?.winRate || 0}%`} />
+					<Infocard
+						title={"Profit / Loss"}
+						sub={activeWallet?.profitLoss || 0}
+					/>
 				</div>
 				{/* journal */}
 
