@@ -4,23 +4,19 @@ import Trademodal from "./Trademodal";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { selectUsername } from "../features/userSlice";
+import { selectUserWallets } from "../features/walletSlice";
 
 const Content = () => {
 	const [showModal, setshowModal] = useState(false);
 
 	const username = useSelector(selectUsername);
+	const userWallets = useSelector(selectUserWallets);
 
 	const currentLogin = JSON.parse(sessionStorage.getItem("lastLogin"));
 
 	const closeModal = () => {
 		setshowModal(false);
 	};
-
-	// useEffect(() => {
-	// 	if (user) {
-	// 		console.log(user);
-	// 	}
-	// }, [user]);
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 ">
@@ -48,9 +44,9 @@ const Content = () => {
 
 				{/* insights */}
 				<div className="flex justify-between capitalize gap-4">
-					<Infocard title={"number of trades"} percentage={"0"} />
-					<Infocard title={"win rate"} percentage={"0%"} />
-					<Infocard title={"returns"} percentage={"+0r"} />
+					<Infocard title={"Trades"} sub={"0"} />
+					<Infocard title={"Winrate"} sub={"0%"} />
+					<Infocard title={"Profit / Loss"} sub={"+0r"} />
 				</div>
 				{/* journal */}
 

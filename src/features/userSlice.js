@@ -1,6 +1,5 @@
 import axios from "axios";
 import { devServer, getAccessToken } from "../constants";
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const initialState = {
