@@ -4,6 +4,7 @@ import loginReducer from "../features/loginSlice";
 import registerReducer from "../features/registerSlice";
 import userReducer, { initialState } from "../features/userSlice";
 import walletReducer from "../features/walletSlice";
+import tradeReducer from "../features/tradeSlice";
 
 const preloadedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -17,6 +18,7 @@ const store = configureStore({
 			user: { ...initialState, user: preloadedUser },
 		},
 		wallet: walletReducer,
+		trade: tradeReducer,
 	},
 });
 
