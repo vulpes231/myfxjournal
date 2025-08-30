@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Infocard from "./Infocard";
 import Loadingmodal from "./Loadingmodal";
 import Navbar from "./Navbar";
+import Recentactivity from "./Recentactivity";
 import Successmodal from "./Successmodal";
 import Trademodal from "./Trademodal";
 
@@ -20,4 +21,5 @@ export {
 	Errormodal,
 	Successmodal,
 	Footer,
+	Recentactivity,
 };
