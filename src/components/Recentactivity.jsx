@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectUserTrades } from "../features/tradeSlice";
 
 const Recentactivity = () => {
+	const userTrades = useSelector(selectUserTrades);
+
+	useEffect(() => {
+		if (userTrades) {
+			console.log(userTrades);
+		}
+	}, [userTrades]);
 	return (
 		<div className="overflow-auto mt-10">
 			<h3 className="text-[16px] md:text-[24px] font-bold capitalize">

@@ -1,5 +1,6 @@
 import Authnav from "./Authnav";
 import Custominput from "./Custominput";
+import Customselect from "./Customselect";
 import Content from "./Dashcontent";
 import Errormodal from "./Errormodal";
 import Footer from "./Footer";
@@ -22,4 +23,5 @@ export {
 	Successmodal,
 	Footer,
 	Recentactivity,
+	Customselect,
 };

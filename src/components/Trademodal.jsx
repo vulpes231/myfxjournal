@@ -3,10 +3,16 @@ import { MdClose } from "react-icons/md";
 import Custominput from "./Custominput";
 import { styles } from "../styles";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCreateTrade, selectTradeSlice } from "../features/tradeSlice";
+import {
+	createTrade,
+	resetCreateTrade,
+	selectTradeSlice,
+} from "../features/tradeSlice";
 import Loadingmodal from "./Loadingmodal";
 import Successmodal from "./Successmodal";
 import Errormodal from "./Errormodal";
+import Customselect from "./Customselect";
+import { selectUserWallets } from "../features/walletSlice";
 
 const assets = [
 	{
@@ -54,6 +60,8 @@ const Trademodal = ({ showModal, closeModal }) => {
 	const { createTradeLoading, createTradeError, tradeCreated } =
 		useSelector(selectTradeSlice);
 
+	const userWallets = useSelector(selectUserWallets);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setForm({ ...form, [name]: value });
@@ -62,6 +70,7 @@ const Trademodal = ({ showModal, closeModal }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(form);
+		dispatch(createTrade(form));
 	};
 
 	useEffect(() => {
@@ -114,31 +123,46 @@ const Trademodal = ({ showModal, closeModal }) => {
 					<MdClose className="w-6 h-6 cursor-pointer" />
 				</span>
 				<div className="flex flex-col md:flex-row gap-4">
-					<select
-						className={`${styles.select} uppercase`}
+					<Customselect
+						handleChange={handleChange}
 						value={form.asset}
-						onChange={handleChange}
-						name="asset"
-					>
-						<option value="">Select Asset</option>
-						{assets.map((asset) => {
-							return (
-								<option value={asset.name} key={asset.id}>
-									{asset.name}
-								</option>
-							);
-						})}
-					</select>
-					<select
-						className={`${styles.select} uppercase`}
+						name={"asset"}
+						// customClass={}
+						label={"Asset"}
+						optionLabel={"Select Asset"}
+						options={assets}
+					/>
+					<Customselect
+						handleChange={handleChange}
 						value={form.orderType}
-						onChange={handleChange}
-						name="orderType"
-					>
-						<option value="">Select Order Type</option>
-						<option value="buy">buy</option>
-						<option value="sell">sell</option>
-					</select>
+						name={"orderType"}
+						// customClass={}
+						label={"Order Type"}
+						optionLabel={"Select Order Type"}
+						options={[
+							{ id: "buy", name: "buy" },
+							{ id: "sell", name: "sell" },
+						]}
+					/>
+				</div>
+				<div className="flex flex-col md:flex-row gap-4 w-full">
+					<Custominput
+						placeHolder={"0.0"}
+						label={"lot size"}
+						value={form.lotSize}
+						handleChange={handleChange}
+						name="lotSize"
+						type={"text"}
+					/>
+					<Customselect
+						handleChange={handleChange}
+						value={form.walletId}
+						name={"walletId"}
+						// customClass={}
+						label={"Wallet"}
+						optionLabel={"Select Wallet"}
+						options={userWallets}
+					/>
 				</div>
 				<div className="flex flex-col md:flex-row gap-4 w-full ">
 					<Custominput
@@ -175,17 +199,6 @@ const Trademodal = ({ showModal, closeModal }) => {
 						name="stopLoss"
 						type={"text"}
 					/>
-				</div>
-				<div className="flex flex-col md:flex-row gap-4 w-full">
-					<Custominput
-						placeHolder={"0.0"}
-						label={"lot size"}
-						value={form.lotSize}
-						handleChange={handleChange}
-						name="lotSize"
-						type={"text"}
-					/>
-					<div className="w-full"></div>
 				</div>
 
 				<button

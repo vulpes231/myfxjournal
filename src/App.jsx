@@ -5,6 +5,7 @@ import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "./features/userSlice";
+import { getUserTrades } from "./features/tradeSlice";
 
 const App = () => {
 	const token = getAccessToken();
@@ -23,6 +24,7 @@ const App = () => {
 		if (token) {
 			// console.log(token);
 			dispatch(getUserInfo());
+			dispatch(getUserTrades());
 		}
 	}, [token]);
 

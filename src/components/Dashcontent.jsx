@@ -15,7 +15,7 @@ const Content = () => {
 	const token = getAccessToken();
 	const dispatch = useDispatch();
 	const [showModal, setshowModal] = useState(false);
-	const [selectedWalletId, setSelectedWalletId] = useState(null);
+	const [selectedWalletId, setSelectedWalletId] = useState("");
 	const [activeWallet, setActiveWallet] = useState(null);
 
 	const username = useSelector(selectUsername);
