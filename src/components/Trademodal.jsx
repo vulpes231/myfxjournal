@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Custominput from "./Custominput";
 import { styles } from "../styles";
-import { useSelector } from "react-redux";
-import { selectTradeSlice } from "../features/tradeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCreateTrade, selectTradeSlice } from "../features/tradeSlice";
+import Loadingmodal from "./Loadingmodal";
+import Successmodal from "./Successmodal";
+import Errormodal from "./Errormodal";
 
 const assets = [
 	{
@@ -32,17 +35,21 @@ const assets = [
 	},
 ];
 
+const initialState = {
+	asset: "",
+	orderType: "",
+	riskRatio: "",
+	entry: "",
+	stopLoss: "",
+	takeProfit: "",
+	lotSize: "",
+	walletId: "",
+};
+
 const Trademodal = ({ showModal, closeModal }) => {
-	const [form, setForm] = useState({
-		asset: "",
-		orderType: "",
-		riskRatio: "",
-		entry: "",
-		stopLoss: "",
-		takeProfit: "",
-		lotSize: "",
-		walletId: "",
-	});
+	const dispatch = useDispatch();
+	const [form, setForm] = useState(initialState);
+	const [error, setError] = useState("");
 
 	const { createTradeLoading, createTradeError, tradeCreated } =
 		useSelector(selectTradeSlice);
@@ -51,10 +58,42 @@ const Trademodal = ({ showModal, closeModal }) => {
 		const { name, value } = e.target;
 		setForm({ ...form, [name]: value });
 	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(form);
 	};
+
+	useEffect(() => {
+		if (createTradeError) {
+			setError(createTradeError);
+		}
+	}, [createTradeError]);
+
+	useEffect(() => {
+		let timeout;
+		if (error) {
+			timeout = setTimeout(() => {
+				dispatch(resetCreateTrade());
+				setError("");
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [error]);
+
+	useEffect(() => {
+		let timeout;
+		if (tradeCreated) {
+			timeout = setTimeout(() => {
+				dispatch(resetCreateTrade());
+				setForm(initialState);
+				closeModal();
+				window.location.href = "/dashboard";
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [tradeCreated]);
+
 	return (
 		<div
 			className={
@@ -156,6 +195,9 @@ const Trademodal = ({ showModal, closeModal }) => {
 					add trade
 				</button>
 			</form>
+			{createTradeLoading && <Loadingmodal loadingText={"Creating trade"} />}
+			{tradeCreated && <Successmodal successText={"Trade Created."} />}
+			{error && <Errormodal error={error} />}
 		</div>
 	);
 };
