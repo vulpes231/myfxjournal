@@ -9,6 +9,7 @@ const initialState = {
 	getTradesLoading: false,
 	getTradesError: null,
 	userTrades: [],
+	tradesPagination: null,
 };
 
 export const createTrade = createAsyncThunk(
@@ -93,11 +94,13 @@ const tradeSlice = createSlice({
 				state.getTradesLoading = false;
 				state.getTradesError = false;
 				state.userTrades = action.payload.data;
+				state.tradesPagination = action.payload.pagination;
 			})
 			.addCase(getUserTrades.rejected, (state, action) => {
 				state.getTradesLoading = false;
 				state.getTradesError = action.error.message;
 				state.userTrades = [];
+				state.tradesPagination = null;
 			});
 	},
 });
