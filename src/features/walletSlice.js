@@ -1,7 +1,5 @@
-import axios from "axios";
-import { devServer, getAccessToken } from "../constants";
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "./interceptors";
 
 const initialState = {
 	userWallets: null,
@@ -13,15 +11,7 @@ export const getUserWallets = createAsyncThunk(
 	"wallet/getUserWallets",
 	async (_, { rejectWithValue }) => {
 		try {
-			const url = `${devServer}/wallet`;
-			const token = getAccessToken();
-			const response = await axios.get(url, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			// console.log(response.data);
+			const response = await api.get("/wallet");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

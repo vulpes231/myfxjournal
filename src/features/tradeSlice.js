@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { devServer, getAccessToken } from "../constants";
-import axios from "axios";
+import api from "./interceptors";
 
 const initialState = {
 	createTradeLoading: false,
@@ -10,24 +9,18 @@ const initialState = {
 	getTradesError: null,
 	userTrades: [],
 	tradesPagination: null,
+	// statusCode: null
 };
 
 export const createTrade = createAsyncThunk(
 	"trade/createTrade",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const token = getAccessToken();
-			const url = `${devServer}/trade`;
-			const response = await axios.post(url, formData, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const response = await api.post("/trade", formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
-				error.response?.data || {
+				error.response?.data?.message || {
 					message: error.message,
 					statusCode: error.statusCode,
 				}
@@ -40,15 +33,7 @@ export const getUserTrades = createAsyncThunk(
 	"trade/getUserTrades",
 	async (_, { rejectWithValue }) => {
 		try {
-			const token = getAccessToken();
-			const url = `${devServer}/trade`;
-			const response = await axios.get(url, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			// console.log(url, response.data);
+			const response = await api.get("/trade");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -98,7 +83,7 @@ const tradeSlice = createSlice({
 			})
 			.addCase(getUserTrades.rejected, (state, action) => {
 				state.getTradesLoading = false;
-				state.getTradesError = action.error.message;
+				state.getTradesError = action.payload?.message || action.error.message;
 				state.userTrades = [];
 				state.tradesPagination = null;
 			});

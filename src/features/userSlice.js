@@ -1,6 +1,5 @@
-import axios from "axios";
-import { devServer, getAccessToken } from "../constants";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "./interceptors";
 
 export const initialState = {
 	user: null,
@@ -15,15 +14,7 @@ export const getUserInfo = createAsyncThunk(
 	"user/getUserInfo",
 	async (_, { rejectWithValue }) => {
 		try {
-			const url = `${devServer}/user`;
-			const token = getAccessToken();
-			const response = await axios.get(url, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			// console.log(response.data);
+			const response = await api.get("/user");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -40,19 +31,7 @@ export const logoutUser = createAsyncThunk(
 	"user/logoutUser",
 	async (_, { rejectWithValue }) => {
 		try {
-			const url = `${devServer}/user/logout`;
-			const token = getAccessToken();
-			const response = await axios.post(
-				url,
-				{},
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			console.log(response.data);
+			const response = await api.post("/user/logout");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

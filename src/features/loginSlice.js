@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { devServer } from "../constants";
-import axios from "axios";
+import api from "./interceptors";
 
 const initialState = {
 	accessToken: null,
@@ -14,14 +13,7 @@ export const loginUser = createAsyncThunk(
 	"login/loginUser",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const url = `${devServer}/signin`;
-			const response = await axios.post(url, formData, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			console.log("data", response.data);
-			console.log("token", response.token);
+			const response = await api.post("/signin", formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

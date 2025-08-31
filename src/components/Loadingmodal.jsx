@@ -4,9 +4,7 @@ import React from "react";
 const Loadingmodal = ({ loadingText, darkMode }) => {
 	return (
 		<div
-			className={`${
-				darkMode ? "bg-white/60 text-[#505050]" : "bg-black/60 text-white"
-			} fixed top-[70px] z-10 w-full h-screen flex flex-col items-center justify-center`}
+			className={`fixed top-[70px] left-0 z-10 w-full h-screen flex flex-col items-center justify-center bg-black/20 dark:bg-white/20`}
 		>
 			<div className="">
 				<motion.div
