@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectTradeSlice } from "../features/tradeSlice";
-import { gbp, gold } from "../assets";
+import { eur, gbp, gold, jpy, usa } from "../assets";
 import { format } from "date-fns";
 import { styles } from "../styles";
+import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 
 const Recentactivity = () => {
@@ -57,6 +58,12 @@ const Recentactivity = () => {
 										? gbp
 										: trade.asset === "gold"
 										? gold
+										: trade.asset === "eu"
+										? eur
+										: trade.asset.startsWith("u")
+										? usd
+										: trade.asset === "btc"
+										? btc
 										: null;
 								return (
 									<tr
@@ -84,7 +91,16 @@ const Recentactivity = () => {
 											</span>
 										</td>
 										{/* position */}
-										<td className={styles.table.td}>{trade.orderType}</td>
+										<td className={styles.table.td}>
+											<span className="flex items-center gap-2">
+												{trade.orderType === "buy" ? (
+													<TrendingUpIcon className="text-green-500" />
+												) : (
+													<TrendingDownIcon className="text-red-500" />
+												)}
+												{trade.orderType}
+											</span>
+										</td>
 										{/* risk ratio */}
 										<td className={`${styles.table.td} hidden md:table-cell`}>
 											{trade.riskRatio}
