@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Authnav = () => {
 	const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const Authnav = () => {
 								key={link.id}
 								className="hidden md:block hover:text-[#1FA9D2] cursor-pointer"
 							>
-								<a href="#">{link.name}</a>
+								<Link to={link.path}>{link.name}</Link>
 							</li>
 						))}
 				</ul>

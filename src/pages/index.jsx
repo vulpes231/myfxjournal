@@ -4,5 +4,6 @@ import Profile from "./Profile";
 import Register from "./Register";
 import Analytics from "./Analytics";
 import Trades from "./Trades";
+import Calculator from "./Calculator";
 
-export { Login, Dash, Profile, Register, Analytics, Trades };
+export { Login, Dash, Profile, Register, Analytics, Trades, Calculator };

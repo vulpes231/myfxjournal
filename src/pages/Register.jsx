@@ -72,6 +72,10 @@ const Register = () => {
 		return () => clearTimeout(timeout);
 	}, [error]);
 
+	useEffect(() => {
+		document.title = "Journo - Register";
+	}, []);
+
 	return (
 		<section className={`p-6 w-full min-h-screen pt-28 md:pt-20`}>
 			<div

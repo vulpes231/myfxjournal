@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Dash, Login, Profile, Register, Analytics, Trades } from "./pages";
+import {
+	Dash,
+	Login,
+	Profile,
+	Register,
+	Analytics,
+	Trades,
+	Calculator,
+} from "./pages";
 import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +49,11 @@ const App = () => {
 						path="/strategies"
 						element={token ? <Analytics /> : <Login />}
 					/>
-					<Route path="/trades" element={token ? <Trades /> : <Login />} />
+					<Route path="/history" element={token ? <Trades /> : <Login />} />
+					<Route
+						path="/calculator"
+						element={token ? <Calculator /> : <Login />}
+					/>
 				</Routes>
 				{!token ? <Footer /> : null}
 			</div>

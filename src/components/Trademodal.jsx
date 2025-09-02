@@ -44,7 +44,6 @@ const assets = [
 const initialState = {
 	asset: "",
 	orderType: "",
-	riskRatio: "",
 	entry: "",
 	stopLoss: "",
 	takeProfit: "",
@@ -165,14 +164,14 @@ const Trademodal = ({ showModal, closeModal }) => {
 					/>
 				</div>
 				<div className="flex flex-col md:flex-row gap-4 w-full ">
-					<Custominput
+					{/* <Custominput
 						placeHolder={"Risk Ratio e.g 1:3"}
 						label={"risk reward"}
 						value={form.riskRatio}
 						handleChange={handleChange}
 						name="riskRatio"
 						type={"text"}
-					/>
+					/> */}
 					<Custominput
 						placeHolder={"0.00"}
 						label={"entry"}

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Profile = () => {
-  return <div>Profile</div>;
+	useEffect(() => {
+		document.title = "Journo - Profile";
+	}, []);
+	return <div>Profile</div>;
 };
 
 export default Profile;

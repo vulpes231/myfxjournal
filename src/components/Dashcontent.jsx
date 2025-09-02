@@ -42,6 +42,13 @@ const Content = () => {
 	}, [selectedWalletId]);
 
 	useEffect(() => {
+		if (userWallets && userWallets.length > 0) {
+			setActiveWallet(userWallets[0]);
+			setSelectedWalletId(userWallets[0]._id); // ✅ update the select value
+		}
+	}, [userWallets]);
+
+	useEffect(() => {
 		if (token) {
 			dispatch(getUserWallets());
 		}
@@ -49,7 +56,7 @@ const Content = () => {
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 text-slate-600 dark:text-gray-300">
-			<div className="flex flex-col gap-6 md:w-[1100px] md:mx-auto">
+			<div className="flex flex-col gap-6 md:max-w-[750px] lg:max-w-[1100px] md:mx-auto">
 				<div className="flex justify-between  ">
 					<div>
 						<h3 className="text-[16px] font-bold capitalize">
@@ -66,35 +73,35 @@ const Content = () => {
 						enter trade
 					</button>
 				</div>
-				<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full max-w-sm ">
-					{/* Wallet Selector */}
-					<select
-						name="selectedWalletId"
-						onChange={handleSelect}
-						value={selectedWalletId}
-						className={styles.select}
-					>
-						<option value="">Select Wallet</option>
-						{userWallets?.map((wallet) => (
-							<option value={wallet._id} key={wallet._id}>
-								{wallet.name}
-							</option>
-						))}
-					</select>
-
-					{/* Balance Section */}
-					<div className="flex flex-col items-center">
-						<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide">
-							Balance
-						</p>
-						<p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-1">
-							${parseFloat(activeWallet?.balance || 0).toFixed(2)}
-						</p>
-					</div>
-				</div>
 
 				{/* insights */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 capitalize">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 capitalize">
+					<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full">
+						{/* Wallet Selector */}
+						<select
+							name="selectedWalletId"
+							onChange={handleSelect}
+							value={selectedWalletId}
+							className={styles.select}
+						>
+							<option value="">Select Wallet</option>
+							{userWallets?.map((wallet) => (
+								<option value={wallet._id} key={wallet._id}>
+									{wallet.name}
+								</option>
+							))}
+						</select>
+
+						{/* Balance Section */}
+						<div className="flex flex-col items-center">
+							<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide">
+								Balance
+							</p>
+							<p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-1">
+								${parseFloat(activeWallet?.balance || 0).toFixed(2)}
+							</p>
+						</div>
+					</div>
 					<Infocard
 						title="Trades"
 						sub="0"

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Content from "../components/Dashcontent";
 import Navbar from "../components/Navbar";
 
@@ -7,6 +8,9 @@ import { useSelector } from "react-redux";
 const Dash = () => {
 	const { darkMode } = useSelector((state) => state.nav);
 
+	useEffect(() => {
+		document.title = "Journo - Dashboard";
+	}, []);
 	return (
 		<section
 			className={
