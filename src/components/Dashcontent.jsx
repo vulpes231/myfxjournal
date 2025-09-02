@@ -7,7 +7,7 @@ import { selectUsername } from "../features/userSlice";
 import { getUserWallets, selectUserWallets } from "../features/walletSlice";
 import { getAccessToken } from "../constants";
 import { Md10K } from "react-icons/md";
-import { TrendingUp, Percent, DollarSign } from "lucide-react"; // cleaner, modern icons
+import { TrendingUp, Percent, DollarSign, LucideWallet } from "lucide-react"; // cleaner, modern icons
 import Recentactivity from "./Recentactivity";
 import { styles } from "../styles";
 
@@ -87,15 +87,15 @@ const Content = () => {
 							<option value="">Select Wallet</option>
 							{userWallets?.map((wallet) => (
 								<option value={wallet._id} key={wallet._id}>
-									{wallet.name}
+									{wallet.name === "wallet 1" && "Trade Account"}
 								</option>
 							))}
 						</select>
 
 						{/* Balance Section */}
 						<div className="flex flex-col items-center">
-							<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide">
-								Balance
+							<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide flex items-center gap-1">
+								<LucideWallet /> Balance
 							</p>
 							<p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-1">
 								${parseFloat(activeWallet?.balance || 0).toFixed(2)}
@@ -106,23 +106,39 @@ const Content = () => {
 						title="Trades"
 						sub="0"
 						icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
+						footer={[
+							{ label: "open trades", value: 0 },
+							{ label: "closed trades", value: 0 },
+						]}
 					/>
 
 					<Infocard
 						title="Winrate"
 						sub={`${activeWallet?.winRate || 0}%`}
 						icon={<Percent className="w-6 h-6 text-green-600" />}
+						footer={[
+							{ label: "wins (%)", value: `${0}%` },
+							{ label: "risk reward (RR)", value: `+${0}` },
+						]}
 					/>
 
 					<Infocard
 						title="Profit / Loss"
 						sub={activeWallet?.profitLoss || 0}
 						icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
+						footer={[
+							{ label: "total profit", value: `$${0}` },
+							{ label: "total loss", value: `$${0}` },
+						]}
 					/>
 				</div>
 				{/* journal */}
 
-				<Recentactivity />
+				<Recentactivity
+					tableTitle={"recent trades"}
+					showFooter={false}
+					count={1}
+				/>
 				<Trademodal showModal={showModal} closeModal={closeModal} />
 			</div>
 		</section>

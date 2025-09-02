@@ -7,7 +7,7 @@ const navLinks = [
 const authLinks = [
 	{ id: 1, name: "dashboard", path: "/dashboard" },
 	{ id: 2, name: "trade history", path: "/history" },
-	{ id: 3, name: "size calculator", path: "/calculator" },
+	{ id: 3, name: "position size calculator", path: "/calculator" },
 ];
 
 const footerLinks = [

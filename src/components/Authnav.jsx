@@ -6,9 +6,13 @@ import { setDarkMode, setToggle } from "../features/navSlice";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+import { LucideUserCircle2 } from "lucide-react";
+import { useState } from "react";
+import Usermenu from "./Usermenu";
 
 const Authnav = () => {
 	const dispatch = useDispatch();
+	const [showMenu, setShowMenu] = useState(false);
 
 	const { toggle, darkMode } = useSelector((state) => state.nav);
 
@@ -83,8 +87,18 @@ const Authnav = () => {
 					<span onClick={() => dispatch(setToggle())} className="sm:hidden">
 						{!toggle ? <MdMenu /> : <MdClose />}{" "}
 					</span>
+					<button
+						type="button"
+						onClick={() => {
+							setShowMenu((prev) => !prev);
+						}}
+						// className={`${styles.button.bgColor} rounded-[10px] w-6 h-6 `}
+					>
+						<LucideUserCircle2 />
+					</button>
 				</div>
 			</nav>
+			{showMenu && <Usermenu />}
 		</header>
 	);
 };

@@ -7,7 +7,7 @@ import { styles } from "../styles";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 
-const Recentactivity = () => {
+const Recentactivity = ({ tableTitle, showFooter, count }) => {
 	const { userTrades, tradesPagination } = useSelector(selectTradeSlice);
 	const [page, setPage] = useState(tradesPagination?.currentPage || 1);
 
@@ -18,11 +18,21 @@ const Recentactivity = () => {
 		if (page < tradesPagination?.totalPages) setPage((p) => p + 1);
 	};
 
+	const docCount = count > 0 ? count : userTrades.length;
+
 	return (
 		<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-4 md:p-6">
-			<h3 className="text-lg md:text-2xl font-bold capitalize mb-6">
-				Recent Trades
-			</h3>
+			<div className="flex justify-between items-center py-2">
+				<h3 className="text-lg md:text-2xl font-bold capitalize mb-6">
+					{tableTitle}
+				</h3>
+				<select name="" id="">
+					<option value="">Filter By</option>
+					<option value="orderType">Position</option>
+					<option value="asset">Asset</option>
+					<option value="status">Status</option>
+				</select>
+			</div>
 
 			<div className="overflow-x-auto">
 				{userTrades.length > 0 ? (
@@ -48,11 +58,14 @@ const Recentactivity = () => {
 									Lot Size
 								</th>
 								<th className={styles.table.th}>Status</th>
+								<th className={`${styles.table.th} hidden md:table-cell`}>
+									Outcome
+								</th>
 								<th className={styles.table.th}>Action</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-slate-200 dark:divide-slate-700 uppercase font-thin">
-							{userTrades.map((trade) => {
+							{userTrades.slice(0, docCount).map((trade) => {
 								const icon =
 									trade.asset === "gu"
 										? gbp
@@ -72,10 +85,7 @@ const Recentactivity = () => {
 									>
 										{/* date */}
 										<td className={`${styles.table.td} hidden md:table-cell`}>
-											{format(
-												new Date(trade.createdAt),
-												"dd MMM, yyyy hh:mm a"
-											)}
+											{format(new Date(trade.createdAt), "dd MMM, hh:mm a")}
 										</td>
 										{/* asset */}
 										<td className={styles.table.td}>
@@ -125,10 +135,18 @@ const Recentactivity = () => {
 												{trade.status}
 											</span>
 										</td>
+										<td className={styles.table.td}>
+											<span
+												className={`px-2 py-1 rounded-lg text-xs font-semibold`}
+											>
+												{trade?.outcome || "pending"}
+											</span>
+										</td>
 										{/* action */}
 										<td className={styles.table.td}>
 											<select className="border rounded-lg px-2 py-1 text-sm">
 												<option value="">Select Action</option>
+												<option value="edit">Edit</option>
 												<option value="cancel">Cancel</option>
 												<option value="close">Close</option>
 											</select>
@@ -146,7 +164,7 @@ const Recentactivity = () => {
 			</div>
 
 			{/* pagination */}
-			{tradesPagination && (
+			{showFooter && tradesPagination && (
 				<div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-4">
 					<div className="text-sm text-slate-500">
 						Page {page} of {tradesPagination?.totalPages} • Total trades:{" "}

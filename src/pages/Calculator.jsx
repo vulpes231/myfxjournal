@@ -151,21 +151,21 @@ const Calculator = () => {
 				</form>
 
 				{/* Results Section */}
-				<div className="mt-10 p-6 bg-gray-100 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+				<div className="mt-10 p-6 bg-gray-100 dark:bg-slate-950 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
 					<div>
-						<h4 className="text-gray-600 font-medium">Lot Size</h4>
-						<p className="text-lg md:text-xl font-bold text-gray-800">
+						<h4 className="font-medium">Lot Size</h4>
+						<p className="text-lg md:text-xl font-bold ">
 							{parseFloat(lot).toFixed(2)}
 						</p>
 					</div>
 					<div>
-						<h4 className="text-gray-600 font-medium">Potential Profit</h4>
+						<h4 className="font-medium">Potential Profit</h4>
 						<p className="text-lg md:text-xl font-bold text-green-600">
 							${parseFloat(profit).toFixed(2)}
 						</p>
 					</div>
 					<div>
-						<h4 className="text-gray-600 font-medium">Potential Loss</h4>
+						<h4 className="font-medium">Potential Loss</h4>
 						<p className="text-lg md:text-xl font-bold text-red-600">
 							-${parseFloat(loss).toFixed(2)}
 						</p>

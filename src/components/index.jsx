@@ -10,6 +10,7 @@ import Navbar from "./Navbar";
 import Recentactivity from "./Recentactivity";
 import Successmodal from "./Successmodal";
 import Trademodal from "./Trademodal";
+import Usermenu from "./Usermenu";
 
 export {
 	Navbar,
@@ -24,4 +25,5 @@ export {
 	Footer,
 	Recentactivity,
 	Customselect,
+	Usermenu,
 };
