@@ -51,7 +51,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 								</th>
 								{/* entry (hidden on mobile) */}
 								<th className={`${styles.table.th} hidden md:table-cell`}>
-									Entry
+									Entry Price
 								</th>
 								{/* lot size (hidden on mobile) */}
 								<th className={`${styles.table.th} hidden md:table-cell`}>
