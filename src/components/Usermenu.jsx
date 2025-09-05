@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-	User,
-	HelpCircle,
-	LogOut,
-	LucideUser,
-	LucideUserCog,
-} from "lucide-react";
+import { HelpCircle, LogOut, LucideUser, LucideUserCog } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loadingmodal from "./Loadingmodal";
 import { logoutUser, selectUserSlice } from "../features/userSlice";
@@ -38,7 +32,6 @@ const Usermenu = () => {
 
 	const handleLogout = (e) => {
 		e.preventDefault();
-		console.log("Clicked");
 		dispatch(logoutUser());
 	};
 
@@ -59,7 +52,6 @@ const Usermenu = () => {
 		return () => clearTimeout(timeout);
 	}, [loggedOut]);
 
-	// console.log("Render:", { logoutLoading, logoutError, loggedOut });
 	return (
 		<div className="absolute top-[80px] right-[20px] md:right-[100px] bg-white dark:bg-slate-900 p-6 rounded-lg shadow-lg flex flex-col gap-4 border border-gray-100 dark:border-slate-700 min-w-[200px]">
 			{/* Username */}

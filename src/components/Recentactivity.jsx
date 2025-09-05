@@ -26,6 +26,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 				<h3 className="text-lg md:text-2xl font-bold capitalize mb-6">
 					{tableTitle}
 				</h3>
+
 				<select name="" id="">
 					<option value="">Filter By</option>
 					<option value="orderType">Position</option>
@@ -33,7 +34,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 					<option value="status">Status</option>
 				</select>
 			</div>
-
+			<hr className="border border-gray-200 dark:border-gray-700" />
 			<div className="overflow-x-auto">
 				{userTrades.length > 0 ? (
 					<table className="w-full border-collapse text-sm md:text-base">
