@@ -15,12 +15,12 @@ const store = configureStore({
 		login: loginReducer,
 		register: registerReducer,
 		user: userReducer,
-		preloadedState: {
-			user: { ...initialState, user: preloadedUser },
-		},
 		wallet: walletReducer,
 		trade: tradeReducer,
 		assets: assetReducer,
+	},
+	preloadedState: {
+		user: { ...initialState, user: preloadedUser },
 	},
 });
 
