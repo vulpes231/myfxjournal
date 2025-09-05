@@ -1,58 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Infocard from "./Infocard";
+import React, { useState } from "react";
 import Trademodal from "./Trademodal";
 import { format } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUsername } from "../features/userSlice";
-import { getUserWallets, selectUserWallets } from "../features/walletSlice";
-import { getAccessToken } from "../constants";
-import { Md10K } from "react-icons/md";
-import { TrendingUp, Percent, DollarSign, LucideWallet } from "lucide-react"; // cleaner, modern icons
 import Recentactivity from "./Recentactivity";
-import { styles } from "../styles";
+import Wallet from "./Wallet";
 
 const Content = () => {
-	const token = getAccessToken();
-	const dispatch = useDispatch();
 	const [showModal, setshowModal] = useState(false);
-	const [selectedWalletId, setSelectedWalletId] = useState("");
-	const [activeWallet, setActiveWallet] = useState(null);
-
 	const username = useSelector(selectUsername);
-	const userWallets = useSelector(selectUserWallets);
-
 	const currentLogin = JSON.parse(sessionStorage.getItem("lastLogin"));
 
 	const closeModal = () => {
 		setshowModal(false);
 	};
-
-	const handleSelect = (e) => {
-		// console.log(e.target);
-		setSelectedWalletId(e.target.value);
-	};
-
-	useEffect(() => {
-		if (selectedWalletId) {
-			const wallet = userWallets.find(
-				(wallet) => wallet._id === selectedWalletId
-			);
-			setActiveWallet(wallet);
-		}
-	}, [selectedWalletId]);
-
-	useEffect(() => {
-		if (userWallets && userWallets.length > 0) {
-			setActiveWallet(userWallets[0]);
-			setSelectedWalletId(userWallets[0]._id); // ✅ update the select value
-		}
-	}, [userWallets]);
-
-	useEffect(() => {
-		if (token) {
-			dispatch(getUserWallets());
-		}
-	}, [token]);
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 text-slate-600 dark:text-gray-300">
@@ -74,64 +35,7 @@ const Content = () => {
 					</button>
 				</div>
 
-				{/* insights */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 capitalize">
-					<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full">
-						{/* Wallet Selector */}
-						<select
-							name="selectedWalletId"
-							onChange={handleSelect}
-							value={selectedWalletId}
-							className={styles.select}
-						>
-							<option value="">Select Wallet</option>
-							{userWallets?.map((wallet) => (
-								<option value={wallet._id} key={wallet._id}>
-									{wallet.name === "wallet 1" && "Trade Account"}
-								</option>
-							))}
-						</select>
-
-						{/* Balance Section */}
-						<div className="flex flex-col items-center">
-							<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide flex items-center gap-1">
-								<LucideWallet /> Balance
-							</p>
-							<p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-1">
-								${parseFloat(activeWallet?.balance || 0).toFixed(2)}
-							</p>
-						</div>
-					</div>
-					<Infocard
-						title="Trades"
-						sub="0"
-						icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
-						footer={[
-							{ label: "open trades", value: 0 },
-							{ label: "closed trades", value: 0 },
-						]}
-					/>
-
-					<Infocard
-						title="Winrate"
-						sub={`${activeWallet?.winRate || 0}%`}
-						icon={<Percent className="w-6 h-6 text-green-600" />}
-						footer={[
-							{ label: "wins (%)", value: `${0}%` },
-							{ label: "risk reward (RR)", value: `+${0}` },
-						]}
-					/>
-
-					<Infocard
-						title="Profit / Loss"
-						sub={activeWallet?.profitLoss || 0}
-						icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
-						footer={[
-							{ label: "total profit", value: `$${0}` },
-							{ label: "total loss", value: `$${0}` },
-						]}
-					/>
-				</div>
+				<Wallet />
 				{/* journal */}
 
 				<Recentactivity

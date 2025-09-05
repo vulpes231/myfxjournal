@@ -5,6 +5,9 @@ const initialState = {
 	userWallets: null,
 	getUserWalletLoading: false,
 	getUserWalletError: null,
+	balanceUpdated: false,
+	updateBalanceLoading: false,
+	updateBalanceError: null,
 };
 
 export const getUserWallets = createAsyncThunk(
@@ -12,6 +15,23 @@ export const getUserWallets = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await api.get("/wallet");
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const updateBalance = createAsyncThunk(
+	"wallet/updateBalance",
+	async (formData, { rejectWithValue }) => {
+		try {
+			const response = await api.put("/wallet", formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -40,8 +60,24 @@ const walletSlice = createSlice({
 			})
 			.addCase(getUserWallets.rejected, (state, action) => {
 				state.getUserWalletLoading = false;
-				state.getUserWalletError = action.error.message;
+				state.getUserWalletError =
+					action.payload?.message || action.error.message;
 				state.userWallets = null;
+			});
+		builder
+			.addCase(updateBalance.pending, (state) => {
+				state.updateBalanceLoading = true;
+			})
+			.addCase(updateBalance.fulfilled, (state, action) => {
+				state.updateBalanceLoading = false;
+				state.updateBalanceError = null;
+				state.balanceUpdated = true;
+			})
+			.addCase(updateBalance.rejected, (state, action) => {
+				state.updateBalanceLoading = false;
+				state.updateBalanceError =
+					action.payload?.message || action.error.message;
+				state.balanceUpdated = false;
 			});
 	},
 });

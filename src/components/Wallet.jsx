@@ -1,0 +1,131 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserWallets, selectUserWallets } from "../features/walletSlice";
+import { getAccessToken } from "../constants";
+import Infocard from "./Infocard";
+
+import {
+	TrendingUp,
+	Percent,
+	DollarSign,
+	LucideWallet,
+	LucideEdit,
+} from "lucide-react";
+import { styles } from "../styles";
+import Editbalance from "./Editbalance";
+
+const Wallet = () => {
+	const dispatch = useDispatch();
+	const token = getAccessToken();
+
+	const [selectedWalletId, setSelectedWalletId] = useState("");
+	const [activeWallet, setActiveWallet] = useState(null);
+	const [modifyBalance, setModifyBalance] = useState(false);
+
+	const userWallets = useSelector(selectUserWallets);
+
+	useEffect(() => {
+		if (token) {
+			dispatch(getUserWallets());
+		}
+	}, [token]);
+
+	const handleSelect = (e) => {
+		// console.log(e.target);
+		setSelectedWalletId(e.target.value);
+	};
+
+	useEffect(() => {
+		if (selectedWalletId) {
+			const wallet = userWallets.find(
+				(wallet) => wallet._id === selectedWalletId
+			);
+			setActiveWallet(wallet);
+		}
+	}, [selectedWalletId]);
+
+	useEffect(() => {
+		if (userWallets && userWallets.length > 0) {
+			setActiveWallet(userWallets[0]);
+			setSelectedWalletId(userWallets[0]._id);
+		}
+	}, [userWallets]);
+
+	return (
+		<div className="">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 capitalize">
+				<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full">
+					<select
+						name="selectedWalletId"
+						onChange={handleSelect}
+						value={selectedWalletId}
+						className={styles.select}
+					>
+						<option value="">Select Wallet</option>
+						{userWallets?.map((wallet) => (
+							<option value={wallet._id} key={wallet._id}>
+								{wallet.name === "wallet 1" && "Trade Account"}
+							</option>
+						))}
+					</select>
+
+					{/* Balance Section */}
+					<div className="flex flex-col justify-between h-full">
+						<div className="flex flex-col items-center">
+							<p className="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wide flex items-center gap-1">
+								Balance
+							</p>
+							<p className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-1 flex items-center gap-2">
+								<LucideWallet />$
+								{parseFloat(activeWallet?.balance || 0).toFixed(2)}
+							</p>
+						</div>
+						<span
+							onClick={() => setModifyBalance(true)}
+							className="text-[10px] flex items-center gap-1 cursor-pointer"
+						>
+							<LucideEdit className="w-3 h-3" /> Edit balance
+						</span>
+					</div>
+				</div>
+				<Infocard
+					title="Trades"
+					sub="0"
+					icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
+					footer={[
+						{ label: "open trades", value: 0 },
+						{ label: "closed trades", value: 0 },
+					]}
+				/>
+
+				<Infocard
+					title="Winrate"
+					sub={`${activeWallet?.winRate || 0}%`}
+					icon={<Percent className="w-6 h-6 text-green-600" />}
+					footer={[
+						{ label: "wins (%)", value: `${0}%` },
+						{ label: "risk reward (RR)", value: `+${0}` },
+					]}
+				/>
+
+				<Infocard
+					title="Profit / Loss"
+					sub={activeWallet?.profitLoss || 0}
+					icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
+					footer={[
+						{ label: "total profit", value: `$${0}` },
+						{ label: "total loss", value: `$${0}` },
+					]}
+				/>
+			</div>
+			{modifyBalance && (
+				<Editbalance
+					walletId={activeWallet?._id}
+					setModify={setModifyBalance}
+				/>
+			)}
+		</div>
+	);
+};
+
+export default Wallet;
