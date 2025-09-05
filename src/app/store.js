@@ -5,6 +5,7 @@ import registerReducer from "../features/registerSlice";
 import userReducer, { initialState } from "../features/userSlice";
 import walletReducer from "../features/walletSlice";
 import tradeReducer from "../features/tradeSlice";
+import assetReducer from "../features/assetSlice";
 
 const preloadedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -19,6 +20,7 @@ const store = configureStore({
 		},
 		wallet: walletReducer,
 		trade: tradeReducer,
+		assets: assetReducer,
 	},
 });
 

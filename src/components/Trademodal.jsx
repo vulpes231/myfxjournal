@@ -13,6 +13,8 @@ import Successmodal from "./Successmodal";
 import Errormodal from "./Errormodal";
 import Customselect from "./Customselect";
 import { selectUserWallets } from "../features/walletSlice";
+import { fetchAssets, selectAssetsSlice } from "../features/assetSlice";
+import { getAccessToken } from "../constants";
 
 const assets = [
 	{
@@ -53,11 +55,14 @@ const initialState = {
 
 const Trademodal = ({ showModal, closeModal }) => {
 	const dispatch = useDispatch();
+	const token = getAccessToken();
 	const [form, setForm] = useState(initialState);
 	const [error, setError] = useState("");
 
 	const { createTradeLoading, createTradeError, tradeCreated } =
 		useSelector(selectTradeSlice);
+
+	const { assets } = useSelector(selectAssetsSlice);
 
 	const userWallets = useSelector(selectUserWallets);
 
@@ -101,6 +106,14 @@ const Trademodal = ({ showModal, closeModal }) => {
 		}
 		return () => clearTimeout(timeout);
 	}, [tradeCreated]);
+
+	useEffect(() => {
+		if (token) {
+			dispatch(fetchAssets());
+			console.log("dispatched.");
+		}
+	}, [dispatch, token]);
+	// console.log(assets);
 
 	return (
 		<div

@@ -8,6 +8,8 @@ import {
 	Analytics,
 	Trades,
 	Calculator,
+	Pricing,
+	Support,
 } from "./pages";
 import { Authnav, Footer, Navbar } from "./components";
 import { getAccessToken } from "./constants";
@@ -43,6 +45,8 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Login />} />
 					<Route path="/signup" element={<Register />} />
+					<Route path="/support" element={<Support />} />
+					<Route path="/pricing" element={<Pricing />} />
 					<Route path="/dashboard" element={token ? <Dash /> : <Login />} />
 					<Route path="/profile" element={token ? <Profile /> : <Login />} />
 					<Route
@@ -50,10 +54,7 @@ const App = () => {
 						element={token ? <Analytics /> : <Login />}
 					/>
 					<Route path="/history" element={token ? <Trades /> : <Login />} />
-					<Route
-						path="/calculator"
-						element={token ? <Calculator /> : <Login />}
-					/>
+					<Route path="/calculator" element={<Calculator />} />
 				</Routes>
 				{!token ? <Footer /> : null}
 			</div>

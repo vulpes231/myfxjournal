@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode, setToggle } from "../features/navSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -43,7 +44,9 @@ const Navbar = () => {
 										transition={{ duration: 0.2, delay: link.id * 0.05 }}
 										className="hover:text-[#1FA9D2] cursor-pointer"
 									>
-										<a href="#">{link.name}</a>
+										<Link to={link.path} onClick={() => dispatch(setToggle())}>
+											{link.name}
+										</Link>
 									</motion.li>
 								))}
 							</motion.div>
@@ -57,7 +60,7 @@ const Navbar = () => {
 								key={link.id}
 								className="hidden md:block hover:text-[#1FA9D2] cursor-pointer"
 							>
-								<a href="#">{link.name}</a>
+								<Link to={link.path}>{link.name}</Link>
 							</li>
 						))}
 				</ul>
@@ -79,7 +82,7 @@ const Navbar = () => {
 						</span>
 					</span>
 					{/* hamburger */}
-					<span onClick={() => dispatch(setToggle())} className="sm:hidden">
+					<span onClick={() => dispatch(setToggle())} className="md:hidden">
 						{!toggle ? (
 							<MdMenu className="w-[18px] h-[18px]" />
 						) : (
