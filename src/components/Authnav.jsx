@@ -74,7 +74,7 @@ const Authnav = () => {
 						<span onClick={() => dispatch(setDarkMode())}>
 							{darkMode ? (
 								<MdDarkMode
-									className={`bg-white text-[#333] w-6 h-6 p-1 rounded-[10px]`}
+									className={`${styles.button.bgColor} text-[#fff] w-6 h-6 p-1 rounded-[10px]`}
 								/>
 							) : (
 								<MdLightMode

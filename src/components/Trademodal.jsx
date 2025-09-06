@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Custominput from "./Custominput";
-import { styles } from "../styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	createTrade,
@@ -16,35 +15,8 @@ import { selectUserWallets } from "../features/walletSlice";
 import { fetchAssets, selectAssetsSlice } from "../features/assetSlice";
 import { getAccessToken } from "../constants";
 
-const assets = [
-	{
-		id: "gold",
-		name: "xau/usd",
-	},
-	{
-		id: "gu",
-		name: "gbp/usd",
-	},
-	{
-		id: "eu",
-		name: "eur/usd",
-	},
-	{
-		id: "uj",
-		name: "usd/jpy",
-	},
-	{
-		id: "u30",
-		name: "us30",
-	},
-	{
-		id: "btc",
-		name: "btc/usd",
-	},
-];
-
 const initialState = {
-	asset: "",
+	assetId: "",
 	orderType: "",
 	entry: "",
 	stopLoss: "",
@@ -110,7 +82,7 @@ const Trademodal = ({ showModal, closeModal }) => {
 	useEffect(() => {
 		if (token) {
 			dispatch(fetchAssets());
-			console.log("dispatched.");
+			// console.log("dispatched.");
 		}
 	}, [dispatch, token]);
 	// console.log(assets);
@@ -137,8 +109,8 @@ const Trademodal = ({ showModal, closeModal }) => {
 				<div className="flex flex-col md:flex-row gap-4">
 					<Customselect
 						handleChange={handleChange}
-						value={form.asset}
-						name={"asset"}
+						value={form.assetId}
+						name={"assetId"}
 						// customClass={}
 						label={"Asset"}
 						optionLabel={"Select Asset"}
