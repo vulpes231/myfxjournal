@@ -31,7 +31,8 @@ export const updateBalance = createAsyncThunk(
 	"wallet/updateBalance",
 	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.put("/wallet", formData);
+			const { walletId } = formData;
+			const response = await api.post(`/wallet/${walletId}`, formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -47,7 +48,13 @@ export const updateBalance = createAsyncThunk(
 const walletSlice = createSlice({
 	name: "wallet",
 	initialState,
-	reducers: {},
+	reducers: {
+		resetUpdateBalance(state) {
+			state.updateBalanceError = null;
+			state.updateBalanceLoading = false;
+			state.balanceUpdated = false;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getUserWallets.pending, (state) => {
@@ -85,4 +92,5 @@ const walletSlice = createSlice({
 export const selectWalletSlice = (state) => state.wallet;
 export const selectUserWallets = (state) => state.wallet.userWallets;
 
+export const { resetUpdateBalance } = walletSlice.actions;
 export default walletSlice.reducer;
