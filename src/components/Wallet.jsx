@@ -13,6 +13,10 @@ import {
 } from "lucide-react";
 import { styles } from "../styles";
 import Editbalance from "./Editbalance";
+import {
+	getTradeAnalytics,
+	selectAnalyticSlice,
+} from "../features/analyticSlice";
 
 const Wallet = () => {
 	const dispatch = useDispatch();
@@ -23,10 +27,12 @@ const Wallet = () => {
 	const [modifyBalance, setModifyBalance] = useState(false);
 
 	const userWallets = useSelector(selectUserWallets);
+	const { tradeAnalytics } = useSelector(selectAnalyticSlice);
 
 	useEffect(() => {
 		if (token) {
 			dispatch(getUserWallets());
+			dispatch(getTradeAnalytics());
 		}
 	}, [token]);
 
@@ -50,6 +56,12 @@ const Wallet = () => {
 			setSelectedWalletId(userWallets[0]._id);
 		}
 	}, [userWallets]);
+
+	// useEffect(() => {
+	// 	if (tradeAnalytics) {
+	// 		console.log(tradeAnalytics);
+	// 	}
+	// }, [tradeAnalytics]);
 
 	return (
 		<div className="">
@@ -90,31 +102,40 @@ const Wallet = () => {
 				</div>
 				<Infocard
 					title="Trades"
-					sub="0"
+					// sub="0"
 					icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
 					footer={[
-						{ label: "open trades", value: 0 },
-						{ label: "closed trades", value: 0 },
+						{ label: "open trades", value: tradeAnalytics?.totalOpen },
+						{ label: "closed trades", value: tradeAnalytics?.totalClosed },
 					]}
 				/>
 
 				<Infocard
 					title="Winrate"
-					sub={`${activeWallet?.winRate || 0}%`}
+					// sub={`${activeWallet?.winRate || 0}%`}
 					icon={<Percent className="w-6 h-6 text-green-600" />}
 					footer={[
-						{ label: "wins (%)", value: `${0}%` },
-						{ label: "risk reward (RR)", value: `+${0}` },
+						{
+							label: "wins (%)",
+							value: `${parseFloat(tradeAnalytics?.winRate).toFixed(1)}%`,
+						},
+						{ label: "trade won", value: tradeAnalytics?.totalWins },
 					]}
 				/>
 
 				<Infocard
 					title="Profit / Loss"
-					sub={activeWallet?.profitLoss || 0}
+					// sub={activeWallet?.profitLoss || 0}
 					icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
 					footer={[
-						{ label: "total profit", value: `$${0}` },
-						{ label: "total loss", value: `$${0}` },
+						{
+							label: "total profit",
+							value: `$${parseFloat(tradeAnalytics?.totalProfit).toFixed(2)}`,
+						},
+						{
+							label: "total loss",
+							value: `$${parseFloat(tradeAnalytics?.totalLoss).toFixed(2)}`,
+						},
 					]}
 				/>
 			</div>
