@@ -83,10 +83,7 @@ const Authnav = () => {
 							)}
 						</span>
 					</span>
-					{/* hamburger */}
-					<span onClick={() => dispatch(setToggle())} className="sm:hidden">
-						{!toggle ? <MdMenu /> : <MdClose />}{" "}
-					</span>
+
 					<button
 						type="button"
 						onClick={() => {
@@ -96,6 +93,10 @@ const Authnav = () => {
 					>
 						<LucideUserCircle2 />
 					</button>
+					{/* hamburger */}
+					<span onClick={() => dispatch(setToggle())} className="sm:hidden">
+						{!toggle ? <MdMenu /> : <MdClose />}{" "}
+					</span>
 				</div>
 			</nav>
 			{showMenu && <Usermenu />}

@@ -53,7 +53,7 @@ const Usermenu = () => {
 	}, [loggedOut]);
 
 	return (
-		<div className="absolute top-[80px] right-[20px] md:right-[100px] bg-white dark:bg-slate-900 p-6 rounded-lg shadow-lg flex flex-col gap-4 border border-gray-100 dark:border-slate-700 min-w-[200px]">
+		<div className="absolute top-[80px] right-[20px] md:right-[40px] lg:right-[80px] bg-white dark:bg-slate-900 p-6 rounded-lg shadow-lg flex flex-col gap-4 border border-gray-100 dark:border-slate-700 min-w-[200px]">
 			{/* Username */}
 			<span className="font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
 				<LucideUser />

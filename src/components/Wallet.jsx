@@ -105,21 +105,21 @@ const Wallet = () => {
 					// sub="0"
 					icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
 					footer={[
-						{ label: "open trades", value: tradeAnalytics?.totalOpen },
-						{ label: "closed trades", value: tradeAnalytics?.totalClosed },
+						{ label: "open", value: tradeAnalytics?.totalOpen },
+						{ label: "closed", value: tradeAnalytics?.totalClosed },
 					]}
 				/>
 
 				<Infocard
-					title="Winrate"
+					title="Stats"
 					// sub={`${activeWallet?.winRate || 0}%`}
 					icon={<Percent className="w-6 h-6 text-green-600" />}
 					footer={[
 						{
-							label: "wins (%)",
+							label: "winrate",
 							value: `${parseFloat(tradeAnalytics?.winRate).toFixed(1)}%`,
 						},
-						{ label: "trade won", value: tradeAnalytics?.totalWins },
+						{ label: "trades won", value: tradeAnalytics?.totalWins },
 					]}
 				/>
 
@@ -129,11 +129,11 @@ const Wallet = () => {
 					icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
 					footer={[
 						{
-							label: "total profit",
+							label: "profit",
 							value: `$${parseFloat(tradeAnalytics?.totalProfit).toFixed(2)}`,
 						},
 						{
-							label: "total loss",
+							label: "loss",
 							value: `$${parseFloat(tradeAnalytics?.totalLoss).toFixed(2)}`,
 						},
 					]}

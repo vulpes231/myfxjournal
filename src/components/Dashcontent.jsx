@@ -15,6 +15,17 @@ const Content = () => {
 		setshowModal(false);
 	};
 
+	// const handleAction = (e, tradeId) => {
+	// 	setAction(e.target.value);
+	// 	console.log(tradeId);
+	// 	setTradeId(tradeId);
+	// };
+
+	// const closeActionModal = () => {
+	// 	setAction("");
+	// 	setTradeId(null);
+	// };
+
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 text-slate-600 dark:text-gray-300">
 			<div className="flex flex-col gap-6 md:max-w-[750px] lg:max-w-[1100px] md:mx-auto">
@@ -45,6 +56,12 @@ const Content = () => {
 				/>
 				<Trademodal showModal={showModal} closeModal={closeModal} />
 			</div>
+
+			{/* {action === "edit" ? (
+				<UpdateTrade tradeId={tradeId} closeModal={closeModal} />
+			) : action === "close" ? (
+				<Closetrade tradeId={tradeId} closeModal={closeModal} />
+			) : null} */}
 		</section>
 	);
 };

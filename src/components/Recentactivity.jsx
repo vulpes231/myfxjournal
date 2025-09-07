@@ -5,10 +5,26 @@ import { eur, gbp, gold, jpy, usa } from "../assets";
 import { format } from "date-fns";
 import { styles } from "../styles";
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
+import UpdateTrade from "./UpdateTrade";
+import Closetrade from "./Closetrade";
 
 const Recentactivity = ({ tableTitle, showFooter, count }) => {
 	const { userTrades, tradesPagination } = useSelector(selectTradeSlice);
 	const [page, setPage] = useState(tradesPagination?.currentPage || 1);
+	const [tradeId, setTradeId] = useState(null);
+
+	const [action, setAction] = useState("");
+
+	const handleAction = (e, tradeId) => {
+		setAction(e.target.value);
+		console.log(tradeId);
+		setTradeId(tradeId);
+	};
+
+	const closeModal = () => {
+		setAction("");
+		setTradeId(null);
+	};
 
 	const handlePrev = () => {
 		if (page > 1) setPage((p) => p - 1);
@@ -20,10 +36,10 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 	const docCount = count > 0 ? count : userTrades.length;
 
 	useEffect(() => {
-		if (userTrades) {
-			console.log(userTrades);
+		if (action) {
+			console.log(action);
 		}
-	}, [userTrades]);
+	}, [action]);
 
 	return (
 		<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-4 md:p-6">
@@ -59,9 +75,9 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 								</th>
 								<th className={styles.table.th}>SL/Amount</th>
 								<th className={styles.table.th}>TP/Amount</th>
-								<th className={`${styles.table.th} hidden md:table-cell`}>
+								{/* <th className={`${styles.table.th} hidden md:table-cell`}>
 									Lot Size
-								</th>
+								</th> */}
 								<th className={`${styles.table.th} hidden md:table-cell`}>
 									Status/Result
 								</th>
@@ -102,7 +118,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 													)}
 													<span className="font-medium">{trade.asset}</span>
 												</span>
-												<small className="flex items-center gap-2">
+												<small className="flex items-center font-normal gap-2 text-[10px] text-[#979797]">
 													{trade.orderType === "buy" ? (
 														<TrendingUpIcon className="text-green-500" />
 													) : (
@@ -117,7 +133,9 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 										<td className={`${styles.table.td} hidden md:table-cell`}>
 											<span>
 												<h3>{trade.risk.ratio || "- : -"}</h3>
-												<h3>{trade.risk.percent || "%"}</h3>
+												<small className="text-[10px] font-normal text-[#979797]">
+													{trade.risk.percent || "%"}
+												</small>
 											</span>
 										</td>
 										{/* entry */}
@@ -128,7 +146,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 										<td className={styles.table.td}>
 											<div>
 												<h3>{trade.execution.stopLoss.point}</h3>
-												<small className="text-red-500">
+												<small className="text-red-500 text-[10px] font-normal">
 													-$
 													{parseFloat(
 														trade.execution.stopLoss.usdValue
@@ -140,7 +158,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 										<td className={styles.table.td}>
 											<div>
 												<h3>{trade.execution.takeProfit.point}</h3>
-												<small className="text-green-500">
+												<small className="text-green-500 text-[10px] font-normal">
 													+$
 													{parseFloat(
 														trade.execution.takeProfit.usdValue
@@ -149,10 +167,10 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 											</div>
 										</td>
 										{/* lot size */}
-										<td className={`${styles.table.td} hidden md:table-cell`}>
+										{/* <td className={`${styles.table.td} hidden md:table-cell`}>
 											{trade.execution.lotSize}
-										</td>
-										<td className={styles.table.td}>
+										</td> */}
+										<td className={`${styles.table.td} hidden md:table-cell`}>
 											<div className="flex flex-col gap-1">
 												<span
 													className={`px-2 py-1 rounded-lg text-xs font-semibold ${
@@ -163,28 +181,32 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 												>
 													{trade.performance.status}
 												</span>
-												<span
-													className={`px-2 py-1 rounded-lg text-xs font-semibold`}
+												<small
+													className={`px-2 py-1 rounded-lg text-[10px] font-normal text-[#979797]`}
 												>
 													{trade.performance.result || "pending"}
-												</span>
+												</small>
 											</div>
 										</td>
 										{/* date */}
 										<td className={`${styles.table.td} hidden md:table-cell`}>
 											<span>
 												<h3>{format(new Date(trade.createdAt), "dd MMM")}</h3>
-												<small>
+												<small className="text-[10px] font-normal text-[#979797]">
 													{format(new Date(trade.createdAt), "hh:mm a")}
 												</small>
 											</span>
 										</td>
 										{/* action */}
 										<td className={styles.table.td}>
-											<select className="border rounded-lg px-2 py-1 text-sm">
+											<select
+												className="border rounded-lg px-2 py-1 text-sm"
+												value={action}
+												onChange={(e) => handleAction(e, trade._id)}
+												name="action"
+											>
 												<option value="">Select Action</option>
 												<option value="edit">Edit</option>
-												<option value="cancel">Cancel</option>
 												<option value="close">Close</option>
 											</select>
 										</td>
@@ -227,6 +249,11 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 					</div>
 				</div>
 			)}
+			{action === "edit" ? (
+				<UpdateTrade tradeId={tradeId} closeModal={closeModal} />
+			) : action === "close" ? (
+				<Closetrade tradeId={tradeId} closeModal={closeModal} />
+			) : null}
 		</div>
 	);
 };
