@@ -32,7 +32,7 @@ const Closetrade = ({ trade, closeModal }) => {
 
 		const data = {
 			tradeId: trade?._id,
-			closingPrice: form.closePrice,
+			closePrice: form.closePrice,
 		};
 		// console.log(data);
 		dispatch(closeTrade(data));

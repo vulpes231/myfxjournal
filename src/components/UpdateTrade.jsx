@@ -7,6 +7,9 @@ import {
 	updateTrade,
 } from "../features/tradeSlice";
 import { btc, eur, gbp, gold, usa } from "../assets";
+import Loadingmodal from "./Loadingmodal";
+import Errormodal from "./Errormodal";
+import Successmodal from "./Successmodal";
 
 const UpdateTrade = ({ trade, closeModal }) => {
 	const dispatch = useDispatch();
@@ -49,6 +52,17 @@ const UpdateTrade = ({ trade, closeModal }) => {
 		}
 		return () => clearTimeout(timeout);
 	}, [error]);
+
+	useEffect(() => {
+		let timeout;
+		if (tradeUpdated) {
+			timeout = setTimeout(() => {
+				dispatch(resetUpdateTrade());
+				window.location.reload();
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [tradeUpdated]);
 
 	const icon = trade.asset.includes("gbp")
 		? gbp

@@ -174,7 +174,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 											<div className="flex flex-col gap-1">
 												<span
 													className={`px-2 py-1 rounded-lg text-xs font-semibold ${
-														trade.status === "open"
+														trade.performance.status === "open"
 															? "bg-green-100 text-green-600"
 															: "bg-red-100 text-red-600"
 													} text-center`}
@@ -205,9 +205,18 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 												onChange={(e) => handleAction(e, trade)}
 												name="action"
 											>
-												<option value="">Select Action</option>
-												<option value="edit">Edit</option>
-												<option value="close">Close</option>
+												{trade.performance.status === "open" ? (
+													<>
+														<option value="">Select Action</option>
+														<option value="edit">Edit</option>
+														<option value="close">Close</option>
+													</>
+												) : (
+													<>
+														<option value="">Select Action</option>
+														<option value="">No action</option>
+													</>
+												)}
 											</select>
 										</td>
 									</tr>

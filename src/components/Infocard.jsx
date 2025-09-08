@@ -23,7 +23,7 @@ const Infocard = ({ icon, title, value, footer }) => {
 				<div className="mt-4 w-full border-t border-gray-200 dark:border-gray-700 pt-2 text-xs text-gray-500 dark:text-gray-400 flex justify-between">
 					{footer.map((item, index) => (
 						<div key={index} className="flex flex-col items-center w-1/2">
-							<span className="font-semibold text-gray-800 dark:text-gray-200 text-[18px] md:text-[22px]">
+							<span className="font-semibold text-gray-800 dark:text-gray-200 text-[16px] md:text-[20px]">
 								{item.value}
 							</span>
 							<span>{item.label}</span>

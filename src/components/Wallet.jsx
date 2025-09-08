@@ -57,11 +57,11 @@ const Wallet = () => {
 		}
 	}, [userWallets]);
 
-	// useEffect(() => {
-	// 	if (tradeAnalytics) {
-	// 		console.log(tradeAnalytics);
-	// 	}
-	// }, [tradeAnalytics]);
+	useEffect(() => {
+		if (tradeAnalytics) {
+			console.log(tradeAnalytics);
+		}
+	}, [tradeAnalytics]);
 
 	return (
 		<div className="">

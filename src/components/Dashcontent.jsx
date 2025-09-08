@@ -52,7 +52,7 @@ const Content = () => {
 				<Recentactivity
 					tableTitle={"recent trades"}
 					showFooter={false}
-					count={1}
+					count={5}
 				/>
 				<Trademodal showModal={showModal} closeModal={closeModal} />
 			</div>
