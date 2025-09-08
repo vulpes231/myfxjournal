@@ -40,9 +40,9 @@ It supports **realized P\&L tracking, win rate calculation, risk management insi
 ## 🛠️ Tech Stack
 
 * **Backend**: Node.js, Express.js, MongoDB (Mongoose ORM)
-* **Frontend**: React (or React Native if mobile)
+* **Frontend**: React for Web App and  React Native for mobile Apps
 * **Authentication**: JWT
-* **Other**: TailwindCSS, Redux Toolkit (if used), Axios
+* **Other**: TailwindCSS, Redux Toolkit, Axios
 
 ---
 
@@ -54,7 +54,7 @@ journo-app/
 │   ├── models/            # Trade, Wallet, User schemas
 │   ├── routes/            # API endpoints
 │   ├── controllers/       # Trade & analytics logic
-│   └── utils/             # Helpers (pip calc, risk mgmt, etc.)
+│   └── services/          # Provider
 │
 │── frontend/              # React frontend
 │   ├── src/components/    # Reusable UI components
@@ -73,7 +73,7 @@ journo-app/
 1. **Clone the repo**
 
 ```bash
-git clone https://github.com/yourusername/journo-app.git
+git clone https://github.com/vulpes231/myfxjournal.git
 cd journo-app
 ```
 
