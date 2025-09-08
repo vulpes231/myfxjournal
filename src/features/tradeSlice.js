@@ -207,5 +207,6 @@ const tradeSlice = createSlice({
 export const selectTradeSlice = (state) => state.trade;
 export const selectUserTrades = (state) => state.trade.userTrades;
 
-export const { resetCreateTrade } = tradeSlice.actions;
+export const { resetCreateTrade, resetUpdateTrade, resetCloseTrade } =
+	tradeSlice.actions;
 export default tradeSlice.reducer;

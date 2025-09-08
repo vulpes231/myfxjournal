@@ -11,19 +11,19 @@ import Closetrade from "./Closetrade";
 const Recentactivity = ({ tableTitle, showFooter, count }) => {
 	const { userTrades, tradesPagination } = useSelector(selectTradeSlice);
 	const [page, setPage] = useState(tradesPagination?.currentPage || 1);
-	const [tradeId, setTradeId] = useState(null);
+	const [tradeData, setTradeData] = useState(null);
 
 	const [action, setAction] = useState("");
 
-	const handleAction = (e, tradeId) => {
+	const handleAction = (e, trade) => {
 		setAction(e.target.value);
-		console.log(tradeId);
-		setTradeId(tradeId);
+		console.log(trade);
+		setTradeData(trade);
 	};
 
 	const closeModal = () => {
 		setAction("");
-		setTradeId(null);
+		setTradeData(null);
 	};
 
 	const handlePrev = () => {
@@ -35,11 +35,11 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 
 	const docCount = count > 0 ? count : userTrades.length;
 
-	useEffect(() => {
-		if (action) {
-			console.log(action);
-		}
-	}, [action]);
+	// useEffect(() => {
+	// 	if (action) {
+	// 		console.log(action);
+	// 	}
+	// }, [action]);
 
 	return (
 		<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-4 md:p-6">
@@ -96,7 +96,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 									: trade.asset.includes("eur")
 									? eur
 									: trade.asset.includes("usd")
-									? usd
+									? usa
 									: trade.asset.includes("btc")
 									? btc
 									: null;
@@ -120,9 +120,9 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 												</span>
 												<small className="flex items-center font-normal gap-2 text-[10px] text-[#979797]">
 													{trade.orderType === "buy" ? (
-														<TrendingUpIcon className="text-green-500" />
+														<TrendingUpIcon className="text-green-500 w-[13px]" />
 													) : (
-														<TrendingDownIcon className="text-red-500" />
+														<TrendingDownIcon className="text-red-500 w-[13px]" />
 													)}
 													{trade.orderType}
 												</small>
@@ -202,7 +202,7 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 											<select
 												className="border rounded-lg px-2 py-1 text-sm"
 												value={action}
-												onChange={(e) => handleAction(e, trade._id)}
+												onChange={(e) => handleAction(e, trade)}
 												name="action"
 											>
 												<option value="">Select Action</option>
@@ -250,9 +250,9 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 				</div>
 			)}
 			{action === "edit" ? (
-				<UpdateTrade tradeId={tradeId} closeModal={closeModal} />
+				<UpdateTrade trade={tradeData} closeModal={closeModal} />
 			) : action === "close" ? (
-				<Closetrade tradeId={tradeId} closeModal={closeModal} />
+				<Closetrade trade={tradeData} closeModal={closeModal} />
 			) : null}
 		</div>
 	);
