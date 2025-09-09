@@ -28,21 +28,27 @@ const Content = () => {
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 text-slate-600 dark:text-gray-300">
-			<div className="flex flex-col gap-6 md:max-w-[750px] lg:max-w-[1100px] md:mx-auto">
-				<div className="flex justify-between  ">
+			<div className="flex flex-col gap-6 max-w-5xl mx-auto">
+				<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-lg shadow-sm">
+					{/* User Info */}
 					<div>
-						<h3 className="text-[16px] font-bold capitalize">
-							Welcome {username}
+						<h3 className="text-lg md:text-xl font-bold capitalize text-slate-800 dark:text-slate-100">
+							Welcome, {username}
 						</h3>
-						<h6 className="text-[13px] font-normal text-slate-600/50 dark:text-gray-300/50">
-							Last login: {format(currentLogin, "dd MMM, yyyy hh:mm a")}
+						<h6 className="text-sm font-normal text-slate-500 dark:text-slate-400">
+							Last login:{" "}
+							<span className="font-medium">
+								{format(currentLogin, "dd MMM, yyyy hh:mm a")}
+							</span>
 						</h6>
 					</div>
+
+					{/* Action Button */}
 					<button
-						className={`p-2 capitalize rounded-[5px] text-[#fff] w-[120px] h-[40px] md:h-[46px] md:w-[140px] font-semibold shadow cursor-pointer bg-[#1FA9D2]`}
+						className="px-5 py-2.5 md:px-6 md:py-3 capitalize rounded-lg text-white font-semibold shadow-md bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 transition-all"
 						onClick={() => setshowModal(true)}
 					>
-						enter trade
+						Enter Trade
 					</button>
 				</div>
 

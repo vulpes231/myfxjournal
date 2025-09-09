@@ -73,7 +73,7 @@ const Register = () => {
 	}, [error]);
 
 	useEffect(() => {
-		document.title = "Journo - Register";
+		document.title = "ChronoTrade - Register";
 	}, []);
 
 	return (

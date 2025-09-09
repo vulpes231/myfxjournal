@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Custominput from "./Custominput";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	createTrade,
@@ -10,6 +9,7 @@ import {
 import Loadingmodal from "./Loadingmodal";
 import Successmodal from "./Successmodal";
 import Errormodal from "./Errormodal";
+import Custominput from "./Custominput";
 import Customselect from "./Customselect";
 import { selectUserWallets } from "../features/walletSlice";
 import { fetchAssets, selectAssetsSlice } from "../features/assetSlice";
@@ -33,9 +33,7 @@ const Trademodal = ({ showModal, closeModal }) => {
 
 	const { createTradeLoading, createTradeError, tradeCreated } =
 		useSelector(selectTradeSlice);
-
 	const { assets } = useSelector(selectAssetsSlice);
-
 	const userWallets = useSelector(selectUserWallets);
 
 	const handleChange = (e) => {
@@ -45,14 +43,11 @@ const Trademodal = ({ showModal, closeModal }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(form);
 		dispatch(createTrade(form));
 	};
 
 	useEffect(() => {
-		if (createTradeError) {
-			setError(createTradeError);
-		}
+		if (createTradeError) setError(createTradeError);
 	}, [createTradeError]);
 
 	useEffect(() => {
@@ -74,135 +69,124 @@ const Trademodal = ({ showModal, closeModal }) => {
 				setForm(initialState);
 				closeModal();
 				window.location.href = "/dashboard";
-			}, 3000);
+			}, 2000);
 		}
 		return () => clearTimeout(timeout);
 	}, [tradeCreated]);
 
 	useEffect(() => {
-		if (token) {
-			dispatch(fetchAssets());
-			// console.log("dispatched.");
-		}
+		if (token) dispatch(fetchAssets());
 	}, [dispatch, token]);
-	// console.log(assets);
 
 	return (
 		<div
-			className={
-				showModal
-					? "fixed h-screen flex flex-col items-center justify-center top-0 w-full left-0 p-6 z-10 bg-black/20 dark:bg-white/20 bg-opacity-70"
-					: "hidden "
-			}
+			className={`${
+				showModal ? "fixed" : "hidden"
+			} inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-white/20`}
 		>
 			<form
-				action=""
-				className="flex flex-col gap-4 w-full bg-white dark:bg-slate-900 md:w-2xl p-10 rounded-2xl"
 				onSubmit={handleSubmit}
+				className="w-full max-w-2xl bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-lg space-y-6 animate-fadeIn"
 			>
-				<span onClick={closeModal} className=" flex justify-between ">
-					<h3 className="text-[16px] md:text-[22px] font-bold">
-						Add a New Trade
-					</h3>
-					<MdClose className="w-6 h-6 cursor-pointer" />
-				</span>
-				<div className="flex flex-col md:flex-row gap-4">
-					<Customselect
-						handleChange={handleChange}
-						value={form.assetId}
-						name={"assetId"}
-						// customClass={}
-						label={"Asset"}
-						optionLabel={"Select Asset"}
-						options={assets}
-					/>
-					<Customselect
-						handleChange={handleChange}
-						value={form.orderType}
-						name={"orderType"}
-						// customClass={}
-						label={"Order Type"}
-						optionLabel={"Select Order Type"}
-						options={[
-							{ id: "buy", name: "buy" },
-							{ id: "sell", name: "sell" },
-						]}
-					/>
-				</div>
-				<div className="flex flex-col md:flex-row gap-4 w-full">
-					<Custominput
-						placeHolder={"0.0"}
-						label={"lot size"}
-						value={form.lotSize}
-						handleChange={handleChange}
-						name="lotSize"
-						type={"text"}
-					/>
-					<Customselect
-						handleChange={handleChange}
-						value={form.walletId}
-						name={"walletId"}
-						// customClass={}
-						label={"Wallet"}
-						optionLabel={"Select Wallet"}
-						options={userWallets}
-					/>
-				</div>
-				<div className="flex flex-col md:flex-row gap-4 w-full ">
-					{/* <Custominput
-						placeHolder={"Risk Ratio e.g 1:3"}
-						label={"risk reward"}
-						value={form.riskRatio}
-						handleChange={handleChange}
-						name="riskRatio"
-						type={"text"}
-					/> */}
-					<Custominput
-						placeHolder={"0.00"}
-						label={"entry"}
-						value={form.entry}
-						handleChange={handleChange}
-						name="entry"
-						type={"text"}
-					/>
-				</div>
-				<div className="flex flex-col md:flex-row gap-4 w-full">
-					<Custominput
-						placeHolder={"0.00"}
-						label={"take profit"}
-						value={form.takeProfit}
-						handleChange={handleChange}
-						name="takeProfit"
-						type={"text"}
-					/>
-					<Custominput
-						placeHolder={"0.00"}
-						label={"stop loss"}
-						value={form.stopLoss}
-						handleChange={handleChange}
-						name="stopLoss"
-						type={"text"}
+				{/* Header */}
+				<div className="flex justify-between items-center border-b pb-3">
+					<h3 className="text-xl md:text-2xl font-semibold">Add a New Trade</h3>
+					<MdClose
+						className="w-6 h-6 cursor-pointer hover:text-red-500 transition"
+						onClick={closeModal}
 					/>
 				</div>
 
-				<button
-					className={`p-2 capitalize rounded-[5px] text-[#fff] w-full h-[40px] md:h-[46px] md:w-[140px] font-semibold shadow cursor-pointer bg-[#1FA9D2] mt-5`}
-					type="submit"
-				>
-					add trade
-				</button>
+				{/* Form Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<Customselect
+						label="Asset"
+						name="assetId"
+						value={form.assetId}
+						handleChange={handleChange}
+						optionLabel="Select Asset"
+						options={assets}
+					/>
+					<Customselect
+						label="Order Type"
+						name="orderType"
+						value={form.orderType}
+						handleChange={handleChange}
+						optionLabel="Select Order Type"
+						options={[
+							{ id: "buy", name: "Buy" },
+							{ id: "sell", name: "Sell" },
+						]}
+					/>
+					<Custominput
+						type="text"
+						name="lotSize"
+						value={form.lotSize}
+						handleChange={handleChange}
+						label="Lot Size"
+						placeHolder="0.01"
+					/>
+					<Customselect
+						label="Wallet"
+						name="walletId"
+						value={form.walletId}
+						handleChange={handleChange}
+						optionLabel="Select Wallet"
+						options={userWallets}
+					/>
+					<Custominput
+						type="text"
+						name="entry"
+						value={form.entry}
+						handleChange={handleChange}
+						label="Entry Price"
+						placeHolder="0.00"
+					/>
+					<Custominput
+						type="text"
+						name="takeProfit"
+						value={form.takeProfit}
+						handleChange={handleChange}
+						label="Take Profit"
+						placeHolder="0.00"
+					/>
+					<Custominput
+						type="text"
+						name="stopLoss"
+						value={form.stopLoss}
+						handleChange={handleChange}
+						label="Stop Loss"
+						placeHolder="0.00"
+					/>
+				</div>
+
+				{/* Actions */}
+				<div className="flex justify-end gap-4 pt-4 border-t">
+					<button
+						type="button"
+						onClick={closeModal}
+						className="px-6 py-2 rounded-lg font-medium bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 transition"
+					>
+						Cancel
+					</button>
+					<button
+						type="submit"
+						className="px-6 py-2 rounded-lg font-semibold text-white bg-[#1FA9D2] hover:bg-[#1889ad] shadow-md transition"
+					>
+						Add Trade
+					</button>
+				</div>
 			</form>
+
+			{/* Modals */}
 			{createTradeLoading && (
-				<Loadingmodal
-					loadingText={"Creating trade"}
-					isOpen={createTradeLoading}
-				/>
+				<Loadingmodal loadingText="Creating trade..." isOpen={true} />
 			)}
 			{tradeCreated && (
-				<Successmodal successText={"Trade Created."} isOpen={tradeCreated} />
+				<Successmodal successText="Trade Created!" isOpen={true} />
 			)}
 			{error && (
-				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+				<Errormodal error={error} isOpen={true} onClose={() => setError("")} />
 			)}
 		</div>
 	);

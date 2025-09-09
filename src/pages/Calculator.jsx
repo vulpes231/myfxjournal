@@ -12,23 +12,15 @@ const initialState = {
 };
 
 const options = [
-	// Metals
-	{ id: "xau/usd", name: "XAU/USD", multiplier: 0.01, pipValue: 1 }, // Gold
-
-	// Majors
+	{ id: "xau/usd", name: "XAU/USD", multiplier: 0.01, pipValue: 1 },
 	{ id: "eur/usd", name: "EUR/USD", multiplier: 0.0001, pipValue: 10 },
 	{ id: "gbp/usd", name: "GBP/USD", multiplier: 0.0001, pipValue: 10 },
 	{ id: "usd/jpy", name: "USD/JPY", multiplier: 0.01, pipValue: 9.1 },
 	{ id: "usd/chf", name: "USD/CHF", multiplier: 0.0001, pipValue: 10 },
-
-	// Crosses
 	{ id: "gbp/chf", name: "GBP/CHF", multiplier: 0.0001, pipValue: 10 },
 	{ id: "gbp/jpy", name: "GBP/JPY", multiplier: 0.01, pipValue: 9.1 },
-
-	// Indices
 	{ id: "nas100", name: "NAS100 (Nasdaq)", multiplier: 1, pipValue: 1 },
 	{ id: "us30", name: "US30 (Dow Jones)", multiplier: 1, pipValue: 1 },
-	// Crypto
 	{ id: "btc/usd", name: "BTC/USD", multiplier: 1, pipValue: 1 },
 ];
 
@@ -60,17 +52,11 @@ const Calculator = () => {
 		const asset = options.find((op) => op.id === form.asset);
 		if (!asset) return;
 
-		// pip distances
 		const stopLossPips = Math.abs(entry - sl) / asset.multiplier;
 		const takeProfitPips = Math.abs(tp - entry) / asset.multiplier;
-
-		// risk in USD
 		const riskUsd = balance * (riskPercent / 100);
-
-		// lot size calculation
 		const lotSize = riskUsd / (stopLossPips * asset.pipValue);
 
-		// actual loss and profit
 		const lossUsd = stopLossPips * lotSize * asset.pipValue;
 		const profitUsd = takeProfitPips * lotSize * asset.pipValue;
 
@@ -81,56 +67,69 @@ const Calculator = () => {
 
 	return (
 		<section className="pt-24 md:pt-28 px-4 md:px-8 min-h-screen bg-gray-50 dark:bg-black flex justify-center items-start pb-20">
-			<div className="w-full max-w-3xl bg-[#fff] dark:bg-slate-900 shadow-lg rounded-2xl p-6 md:p-10">
-				<h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-					Position Size Calculator
-				</h2>
+			<div className="w-full max-w-4xl bg-white dark:bg-slate-900 shadow-xl rounded-2xl p-8 md:p-12">
+				{/* Title */}
+				<div className="text-center mb-10">
+					<h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-100">
+						Position Size Calculator
+					</h2>
+					<p className="text-gray-500 dark:text-gray-400 mt-2">
+						Plan your trades with precise risk management
+					</p>
+				</div>
 
-				<form onSubmit={handleSubmit} className="space-y-6">
+				{/* Form */}
+				<form onSubmit={handleSubmit} className="space-y-8">
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<Customselect
-							label={"Asset"}
-							name={"asset"}
+							label="Asset"
+							name="asset"
 							value={form.asset}
 							handleChange={handleChange}
-							optionLabel={"Choose asset"}
+							optionLabel="Choose asset"
 							options={options}
 						/>
 						<Custominput
-							label={"Balance ($)"}
-							name={"balance"}
+							label="Account Balance ($)"
+							name="balance"
 							value={form.balance}
 							handleChange={handleChange}
+							placeHolder="e.g. 5000"
 						/>
 						<Custominput
-							label={"Risk (%)"}
-							name={"riskPercent"}
+							label="Risk Percentage (%)"
+							name="riskPercent"
 							value={form.riskPercent}
 							handleChange={handleChange}
+							placeHolder="e.g. 1"
 						/>
 						<Custominput
-							label={"Entry Price"}
-							name={"entry"}
+							label="Entry Price"
+							name="entry"
 							value={form.entry}
 							handleChange={handleChange}
+							placeHolder="e.g. 3540.80"
 						/>
 						<Custominput
-							label={"Stop Loss"}
-							name={"sl"}
+							label="Stop Loss Price"
+							name="sl"
 							value={form.sl}
 							handleChange={handleChange}
+							placeHolder="e.g. 3490.00"
 						/>
 						<Custominput
-							label={"Take Profit"}
-							name={"tp"}
+							label="Take Profit Price"
+							name="tp"
 							value={form.tp}
 							handleChange={handleChange}
+							placeHolder="e.g. 3600.00"
 						/>
 					</div>
 
-					<div className="flex flex-wrap justify-center gap-4 mt-4">
+					{/* Buttons */}
+					<div className="flex flex-wrap justify-center gap-4 mt-6">
 						<button
-							className="px-6 py-2 rounded-xl text-white font-semibold shadow-md bg-[#1FA9D2] hover:bg-[#1889ad] transition"
+							className="px-6 py-2.5 rounded-lg text-white font-semibold shadow-md bg-[#1FA9D2] hover:bg-[#1889ad] transition"
 							type="submit"
 						>
 							Calculate
@@ -142,7 +141,7 @@ const Calculator = () => {
 								setProfit(0);
 								setLot(0);
 							}}
-							className="px-6 py-2 rounded-xl text-white font-semibold shadow-md bg-gray-500 hover:bg-gray-600 transition"
+							className="px-6 py-2.5 rounded-lg text-white font-semibold shadow-md bg-gray-500 hover:bg-gray-600 transition"
 							type="button"
 						>
 							Clear
@@ -150,25 +149,36 @@ const Calculator = () => {
 					</div>
 				</form>
 
-				{/* Results Section */}
-				<div className="mt-10 p-6 bg-gray-100 dark:bg-slate-950 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-					<div>
-						<h4 className="font-medium">Lot Size</h4>
-						<p className="text-lg md:text-xl font-bold ">
-							{parseFloat(lot).toFixed(2)}
-						</p>
-					</div>
-					<div>
-						<h4 className="font-medium">Potential Profit</h4>
-						<p className="text-lg md:text-xl font-bold text-green-600">
-							${parseFloat(profit).toFixed(2)}
-						</p>
-					</div>
-					<div>
-						<h4 className="font-medium">Potential Loss</h4>
-						<p className="text-lg md:text-xl font-bold text-red-600">
-							-${parseFloat(loss).toFixed(2)}
-						</p>
+				{/* Results */}
+				<div className="mt-12">
+					<h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+						Results
+					</h3>
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+						<div className="bg-gray-100 dark:bg-slate-950 rounded-xl p-6 shadow-sm text-center">
+							<h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">
+								Lot Size
+							</h4>
+							<p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
+								{lot ? parseFloat(lot).toFixed(2) : "--"}
+							</p>
+						</div>
+						<div className="bg-gray-100 dark:bg-slate-950 rounded-xl p-6 shadow-sm text-center">
+							<h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">
+								Potential Profit
+							</h4>
+							<p className="text-2xl font-bold text-green-600 mt-2">
+								{profit ? `$${parseFloat(profit).toFixed(2)}` : "--"}
+							</p>
+						</div>
+						<div className="bg-gray-100 dark:bg-slate-950 rounded-xl p-6 shadow-sm text-center">
+							<h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">
+								Potential Loss
+							</h4>
+							<p className="text-2xl font-bold text-red-600 mt-2">
+								{loss ? `-$${parseFloat(loss).toFixed(2)}` : "--"}
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

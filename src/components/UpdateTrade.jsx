@@ -14,7 +14,6 @@ import Successmodal from "./Successmodal";
 const UpdateTrade = ({ trade, closeModal }) => {
 	const dispatch = useDispatch();
 	const [form, setForm] = useState({ sl: "", tp: "" });
-
 	const [error, setError] = useState("");
 
 	const { updateTradeLoading, updateTradeError, tradeUpdated } =
@@ -32,14 +31,11 @@ const UpdateTrade = ({ trade, closeModal }) => {
 			stopLoss: form.sl,
 			takeProfit: form.tp,
 		};
-		console.log(data);
 		dispatch(updateTrade(data));
 	};
 
 	useEffect(() => {
-		if (updateTradeError) {
-			setError(updateTradeError);
-		}
+		if (updateTradeError) setError(updateTradeError);
 	}, [updateTradeError]);
 
 	useEffect(() => {
@@ -59,7 +55,7 @@ const UpdateTrade = ({ trade, closeModal }) => {
 			timeout = setTimeout(() => {
 				dispatch(resetUpdateTrade());
 				window.location.reload();
-			}, 3000);
+			}, 2000);
 		}
 		return () => clearTimeout(timeout);
 	}, [tradeUpdated]);
@@ -77,59 +73,88 @@ const UpdateTrade = ({ trade, closeModal }) => {
 		: null;
 
 	return (
-		<section className="w-full h-screen bg-black/50 dark:bg-white/50 flex items-center justify-center p-6 fixed top-0 left-0">
+		<section className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
 			<form
 				onSubmit={handleSubmit}
-				action=""
-				className="bg-white dark:bg-slate-900 p-8 rounded-sm md:rounded-lg shadow-sm flex flex-col gap-6"
+				className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6 animate-fadeIn"
 			>
-				<h3 className="font-bold text-[18px] md:text-[24px]">Update Trade</h3>
-				<hr className="border-[0.5px] border-[#dedede] dark:border-slate-800" />
-
-				<div className="flex items-center gap-2">
-					<img src={icon} alt="" className="w-[35px] rounded-full" />
-					<h6 className="uppercase flex items-center gap-2 font-black">
-						{trade?.asset}{" "}
-						<small
-							className={`${
-								trade?.orderType === "buy" ? "text-green-500" : "text-red-500"
-							} capitalize font-normal`}
-						>
-							{trade?.orderType}
-						</small>
-					</h6>
-				</div>
-				<Custominput
-					label={"stop loss"}
-					value={form.sl}
-					handleChange={handleChange}
-					name={"sl"}
-				/>
-				<Custominput
-					label={"take profit"}
-					value={form.tp}
-					handleChange={handleChange}
-					name={"tp"}
-				/>
-				<div className="flex items-center gap-6">
+				{/* Header */}
+				<div className="flex justify-between items-center">
+					<h3 className="text-xl md:text-2xl font-semibold">Update Trade</h3>
 					<button
-						className="w-full bg-[#1FA9D2] h-[40px] rounded-sm md:rounded-lg text-white"
+						type="button"
+						onClick={closeModal}
+						className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition"
+					>
+						✕
+					</button>
+				</div>
+
+				<hr className="border border-slate-200 dark:border-slate-700" />
+
+				{/* Trade Info */}
+				<div className="flex items-center gap-3">
+					<img src={icon} alt="" className="w-10 h-10 rounded-full" />
+					<div>
+						<h6 className="text-lg font-medium flex items-center gap-2">
+							{trade?.asset}
+							<span
+								className={`text-sm px-2 py-0.5 rounded-md ${
+									trade?.orderType === "buy"
+										? "bg-green-100 text-green-600"
+										: "bg-red-100 text-red-600"
+								}`}
+							>
+								{trade?.orderType}
+							</span>
+						</h6>
+						<p className="text-xs text-slate-500">
+							Entry:{" "}
+							<span className="font-medium">{trade.execution.entry}</span>
+						</p>
+					</div>
+				</div>
+
+				{/* Inputs */}
+				<div className="space-y-4">
+					<Custominput
+						label="Stop Loss"
+						value={form.sl}
+						handleChange={handleChange}
+						name="sl"
+						type="number"
+					/>
+					<Custominput
+						label="Take Profit"
+						value={form.tp}
+						handleChange={handleChange}
+						name="tp"
+						type="number"
+					/>
+				</div>
+
+				{/* Actions */}
+				<div className="flex items-center gap-4 pt-2">
+					<button
+						className="w-full bg-blue-600 hover:bg-blue-700 text-white h-[42px] rounded-lg font-medium transition"
 						type="submit"
 					>
-						update
+						Update
 					</button>
 					<button
-						className="w-full bg-[#979797] h-[40px] rounded-sm md:rounded-lg text-white"
+						className="w-full bg-slate-400 hover:bg-slate-500 text-white h-[42px] rounded-lg font-medium transition"
 						type="button"
 						onClick={closeModal}
 					>
-						cancel
+						Cancel
 					</button>
 				</div>
 			</form>
+
+			{/* Modals */}
 			{updateTradeLoading && (
 				<Loadingmodal
-					loadingText={"Updating Trade"}
+					loadingText="Updating Trade"
 					isOpen={updateTradeLoading}
 				/>
 			)}
@@ -138,7 +163,7 @@ const UpdateTrade = ({ trade, closeModal }) => {
 			)}
 			{tradeUpdated && (
 				<Successmodal
-					successText={"Trade updated."}
+					successText="Trade updated successfully."
 					isOpen={tradeUpdated}
 					onClose={() => dispatch(resetUpdateTrade())}
 				/>

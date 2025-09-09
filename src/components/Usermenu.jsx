@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HelpCircle, LogOut, LucideUser, LucideUserCog } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loadingmodal from "./Loadingmodal";
@@ -7,6 +7,7 @@ import {
 	logoutUser,
 	resetLogout,
 	selectUserSlice,
+	selectUsername,
 } from "../features/userSlice";
 import Errormodal from "./Errormodal";
 import Successmodal from "./Successmodal";
@@ -26,10 +27,13 @@ const menuLinks = [
 	},
 ];
 
-const Usermenu = () => {
+const Usermenu = ({ onClose }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [error, setError] = useState("");
+
+	const username = useSelector(selectUsername);
 
 	const { logoutLoading, logoutError, loggedOut } =
 		useSelector(selectUserSlice);
@@ -61,7 +65,7 @@ const Usermenu = () => {
 			{/* Username */}
 			<span className="font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
 				<LucideUser />
-				<h6>Username</h6>
+				<h6 className="capitalize">{username}</h6>
 			</span>
 
 			<hr className="border-gray-200 dark:border-slate-700" />
@@ -71,7 +75,11 @@ const Usermenu = () => {
 				{menuLinks.map((link) => (
 					<Link
 						key={link.id}
-						to={link.path}
+						// to={link.path}
+						onClick={() => {
+							window.location.href = link.path;
+							onClose();
+						}}
 						className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-slate-800 transition"
 					>
 						{link.icon}

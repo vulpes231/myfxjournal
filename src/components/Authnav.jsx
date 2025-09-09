@@ -16,7 +16,9 @@ const Authnav = () => {
 	const [showMenu, setShowMenu] = useState(false);
 
 	const { toggle, darkMode } = useSelector((state) => state.nav);
-
+	const handleShowMenu = () => {
+		setShowMenu(false);
+	};
 	return (
 		<header
 			className={`w-full h-[70px] shadow-sm fixed top-0 z-1 flex items-center bg-white dark:bg-slate-900 text-slate-600 dark:text-gray-300 px-4`}
@@ -82,7 +84,7 @@ const Authnav = () => {
 					</span>
 				</div>
 			</nav>
-			{showMenu && <Usermenu />}
+			{showMenu && <Usermenu onClose={handleShowMenu} />}
 		</header>
 	);
 };

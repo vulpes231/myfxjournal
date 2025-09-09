@@ -72,7 +72,7 @@ const Login = () => {
 	}, [error]);
 
 	useEffect(() => {
-		document.title = "Journo - Login";
+		document.title = "ChronoTrade - Login";
 	}, []);
 
 	return (

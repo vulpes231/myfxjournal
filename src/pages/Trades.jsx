@@ -14,7 +14,7 @@ const Trades = () => {
 	const { tradeAnalytics } = useSelector(selectAnalyticSlice);
 
 	useEffect(() => {
-		document.title = "Journo - Trade History";
+		document.title = "ChronoTrade - Trade History";
 	}, []);
 
 	useEffect(() => {
@@ -29,7 +29,7 @@ const Trades = () => {
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 bg-gray-50 dark:bg-slate-950">
-			<div className="w-full md:max-w-[750px] lg:max-w-[1100px] md:mx-auto">
+			<div className="w-full max-w-5xl mx-auto">
 				{/* Header */}
 				<div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
 					<div>

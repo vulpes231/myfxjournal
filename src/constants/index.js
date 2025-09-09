@@ -1,6 +1,6 @@
 const navLinks = [
 	{ id: 1, name: "home", path: "/" },
-	{ id: 2, name: "pricing", path: "/pricing" },
+	// { id: 2, name: "pricing", path: "/pricing" },
 	{ id: 3, name: "support", path: "/support" },
 	{ id: 4, name: "position size calculator", path: "/calculator" },
 ];

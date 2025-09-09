@@ -9,7 +9,7 @@ const Dash = () => {
 	const { darkMode } = useSelector((state) => state.nav);
 
 	useEffect(() => {
-		document.title = "Journo - Dashboard";
+		document.title = "ChronoTrade - Dashboard";
 	}, []);
 	return (
 		<section

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Customselect from "./Customselect";
 import Custominput from "./Custominput";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,21 +26,12 @@ const Closetrade = ({ trade, closeModal }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		console.log(trade);
-
-		const data = {
-			tradeId: trade?._id,
-			closePrice: form.closePrice,
-		};
-		// console.log(data);
-		dispatch(closeTrade(data));
+		dispatch(closeTrade({ tradeId: trade?._id, closePrice: form.closePrice }));
 	};
 
+	// Error handler
 	useEffect(() => {
-		if (closeTradeError) {
-			setError(closeTradeError);
-		}
+		if (closeTradeError) setError(closeTradeError);
 	}, [closeTradeError]);
 
 	useEffect(() => {
@@ -55,17 +45,19 @@ const Closetrade = ({ trade, closeModal }) => {
 		return () => clearTimeout(timeout);
 	}, [error]);
 
+	// Success handler
 	useEffect(() => {
 		let timeout;
 		if (tradeClosed) {
 			timeout = setTimeout(() => {
 				dispatch(resetCloseTrade());
 				window.location.reload();
-			}, 3000);
+			}, 2500);
 		}
 		return () => clearTimeout(timeout);
 	}, [tradeClosed]);
 
+	// Get asset icon
 	const icon = trade.asset.includes("gbp")
 		? gbp
 		: trade.asset.includes("xau")
@@ -79,52 +71,81 @@ const Closetrade = ({ trade, closeModal }) => {
 		: null;
 
 	return (
-		<section className="fixed top-0 left-0 w-full h-screen bg-black/50 dark:bg-white/50 flex items-center justify-center p-6">
+		<section className="fixed inset-0 w-full h-screen bg-black/50 dark:bg-white/50 flex items-center justify-center p-4 z-50">
 			<form
 				onSubmit={handleSubmit}
-				action=""
-				className="bg-white dark:bg-slate-900 p-8 rounded-sm md:rounded-lg shadow-sm flex flex-col gap-6"
+				className="w-full max-w-md bg-white dark:bg-slate-900 p-6 md:p-8 rounded-lg shadow-lg flex flex-col gap-6 relative"
 			>
-				<h3 className="font-bold text-[18px] md:text-[24px]">Close Trade</h3>
-				<hr className="border-[0.5px] border-[#dedede] dark:border-slate-800" />
-				<div className="flex items-center gap-2">
-					<img src={icon} alt="" className="w-[35px] rounded-full" />
-					<h6 className="uppercase flex items-center gap-2 font-black">
-						{trade?.asset}{" "}
-						<small
-							className={`${
-								trade?.orderType === "buy" ? "text-green-500" : "text-red-500"
-							} capitalize font-normal`}
-						>
-							{trade?.orderType}
-						</small>
-					</h6>
+				{/* Header */}
+				<div className="flex justify-between items-center">
+					<h3 className="font-bold text-lg md:text-xl text-slate-800 dark:text-slate-100">
+						Close Trade
+					</h3>
+					<button
+						type="button"
+						onClick={closeModal}
+						className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 transition"
+					>
+						✕
+					</button>
 				</div>
+				<hr className="border border-slate-200 dark:border-slate-700" />
+
+				{/* Trade Info */}
+				<div className="flex items-center gap-3">
+					<img
+						src={icon}
+						alt={trade?.asset}
+						className="w-10 h-10 rounded-full"
+					/>
+					<div>
+						<h6 className="uppercase font-bold flex items-center gap-2">
+							{trade?.asset}
+							<span
+								className={`${
+									trade?.orderType === "buy" ? "text-green-500" : "text-red-500"
+								} text-sm font-medium capitalize`}
+							>
+								{trade?.orderType}
+							</span>
+						</h6>
+						<p className="text-sm text-slate-500 dark:text-slate-400">
+							Entry: {trade?.execution?.entry}
+						</p>
+					</div>
+				</div>
+
+				{/* Input */}
 				<Custominput
-					label={"closing price"}
+					label="Closing Price"
 					value={form.closePrice}
 					handleChange={handleChange}
-					name={"closePrice"}
+					name="closePrice"
+					placeholder="Enter price"
 				/>
-				<div className="flex items-center gap-6">
+
+				{/* Buttons */}
+				<div className="flex items-center gap-4">
 					<button
-						className="w-full bg-[#1FA9D2] h-[40px] rounded-sm md:rounded-lg text-white"
+						className="w-full bg-red-500 hover:bg-red-600 transition h-[42px] rounded-lg text-white font-medium"
 						type="submit"
 					>
-						close
+						Close Trade
 					</button>
 					<button
-						className="w-full bg-[#979797] h-[40px] rounded-sm md:rounded-lg text-white"
+						className="w-full bg-gray-400 hover:bg-gray-500 transition h-[42px] rounded-lg text-white font-medium"
 						type="button"
 						onClick={closeModal}
 					>
-						cancel
+						Cancel
 					</button>
 				</div>
 			</form>
+
+			{/* Modals */}
 			{closeTradeLoading && (
 				<Loadingmodal
-					loadingText={"Closing Trade"}
+					loadingText="Closing Trade..."
 					isOpen={closeTradeLoading}
 				/>
 			)}
@@ -132,7 +153,10 @@ const Closetrade = ({ trade, closeModal }) => {
 				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
 			)}
 			{tradeClosed && (
-				<Successmodal successText={"Trade closed."} isOpen={tradeClosed} />
+				<Successmodal
+					successText="Trade closed successfully."
+					isOpen={tradeClosed}
+				/>
 			)}
 		</section>
 	);
