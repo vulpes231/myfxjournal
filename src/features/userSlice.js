@@ -8,6 +8,12 @@ export const initialState = {
 	logoutLoading: false,
 	logoutError: null,
 	loggedOut: false,
+	modifyUserLoading: false,
+	modifyUserError: null,
+	userModified: false,
+	updatePassLoading: false,
+	updatePassError: null,
+	passUpdated: false,
 };
 
 export const getUserInfo = createAsyncThunk(
@@ -15,6 +21,40 @@ export const getUserInfo = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await api.get("/user");
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const changePassword = createAsyncThunk(
+	"user/changePassword",
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await api.post("/user/update-password");
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response?.data || {
+					message: error.message,
+					statusCode: error.statusCode,
+				}
+			);
+		}
+	}
+);
+
+export const editUserInfo = createAsyncThunk(
+	"user/editUserInfo",
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await api.put("/user");
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -53,6 +93,14 @@ const userSlice = createSlice({
 			state.logoutError = null;
 			state.logoutLoading = false;
 		},
+		resetUserAction(state) {
+			state.userModified = false;
+			state.modifyUserError = null;
+			state.modifyUserLoading = false;
+			state.passUpdated = false;
+			state.updatePassError = null;
+			state.updatePassLoading = false;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -67,7 +115,7 @@ const userSlice = createSlice({
 			})
 			.addCase(getUserInfo.rejected, (state, action) => {
 				state.getUserLoading = false;
-				state.getUserError = action.error.message;
+				state.getUserError = action.payload?.message || action.error.message;
 				state.user = null;
 				localStorage.removeItem("user");
 			});
@@ -82,8 +130,36 @@ const userSlice = createSlice({
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.logoutLoading = false;
-				state.logoutError = action.error.message;
+				state.logoutError = action.payload?.message || action.error.message;
 				state.loggedOut = false;
+			});
+		builder
+			.addCase(editUserInfo.pending, (state) => {
+				state.modifyUserLoading = true;
+			})
+			.addCase(editUserInfo.fulfilled, (state) => {
+				state.modifyUserLoading = false;
+				state.modifyUserError = null;
+				state.userModified = true;
+			})
+			.addCase(editUserInfo.rejected, (state, action) => {
+				state.modifyUserLoading = false;
+				state.modifyUserError = action.payload?.message || action.error.message;
+				state.userModified = false;
+			});
+		builder
+			.addCase(changePassword.pending, (state) => {
+				state.updatePassLoading = true;
+			})
+			.addCase(changePassword.fulfilled, (state) => {
+				state.updatePassLoading = false;
+				state.updatePassError = null;
+				state.passUpdated = true;
+			})
+			.addCase(changePassword.rejected, (state, action) => {
+				state.updatePassLoading = false;
+				state.updatePassError = action.payload?.message || action.error.message;
+				state.passUpdated = false;
 			});
 	},
 });
@@ -98,5 +174,5 @@ export const selectIsLoggedIn = (state) => Boolean(state.user.user);
 export const selectUsername = (state) => state.user.user?.username ?? "Guest";
 export const selectUserEmail = (state) => state.user.user?.email ?? null;
 
-export const { resetLogout } = userSlice.actions;
+export const { resetLogout, resetUserAction } = userSlice.actions;
 export default userSlice.reducer;

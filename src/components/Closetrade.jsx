@@ -71,7 +71,7 @@ const Closetrade = ({ trade, closeModal }) => {
 		: null;
 
 	return (
-		<section className="fixed inset-0 w-full h-screen bg-black/50 dark:bg-white/50 flex items-center justify-center p-4 z-50">
+		<section className="fixed inset-0 w-full h-screen bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
 			<form
 				onSubmit={handleSubmit}
 				className="w-full max-w-md bg-white dark:bg-slate-900 p-6 md:p-8 rounded-lg shadow-lg flex flex-col gap-6 relative"

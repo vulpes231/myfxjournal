@@ -14,7 +14,7 @@ const Logo = () => {
 			</div>
 
 			{/* Brand Name */}
-			<h1 className="text-xl md:text-2xl font-extrabold tracking-wider uppercase text-gray-900 dark:text-white">
+			<h1 className="text-lg md:text-2xl font-extrabold tracking-wider uppercase text-gray-900 dark:text-white">
 				<span className="text-sky-500">Chrono</span>
 				<span className="text-cyan-600">Trade</span>
 			</h1>

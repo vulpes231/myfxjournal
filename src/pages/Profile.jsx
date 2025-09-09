@@ -1,24 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	changePassword,
+	editUserInfo,
+	getUserInfo,
+	resetUserAction,
+	selectCurrentUser,
+	selectUserSlice,
+} from "../features/userSlice";
+import { Errormodal, Loadingmodal, Successmodal } from "../components";
 
 const Profile = () => {
+	const dispatch = useDispatch();
 	const user = useSelector(selectCurrentUser);
-
 	const [form, setForm] = useState({
 		username: user?.username || "",
 		email: user?.email || "",
+		password: "",
 		newPassword: "",
 		confirmPassword: "",
 		defaultPair: "XAUUSD",
 		riskPerTrade: 1,
 		timezone: "UTC+0",
-		enableDarkMode: false,
+		// enableDarkMode: false,
 	});
+	const [error, setError] = useState("");
 
-	useEffect(() => {
-		document.title = "ChronoTrade - Profile";
-	}, []);
+	const {
+		updatePassLoading,
+		updatePassError,
+		passUpdated,
+		modifyUserLoading,
+		modifyUserError,
+		userModified,
+	} = useSelector(selectUserSlice);
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
@@ -30,16 +45,30 @@ const Profile = () => {
 
 	const handleUpdateProfile = (e) => {
 		e.preventDefault();
-		console.log("Update profile:", form.username, form.email);
+		const data = {
+			username: form.username,
+			email: form.email,
+		};
+
+		dispatch(editUserInfo(data));
 	};
 
 	const handleResetPassword = (e) => {
 		e.preventDefault();
-		if (form.newPassword !== form.confirmPassword) {
-			alert("Passwords do not match!");
+		if (form.newPassword === "" || form.confirmPassword === "") {
+			setError("Passwords cannot be empty!");
 			return;
 		}
-		console.log("Reset password:", form.newPassword);
+		if (form.newPassword !== form.confirmPassword) {
+			setError("Passwords do not match!");
+			return;
+		}
+		const data = {
+			newPassword: form.newPassword,
+			password: form.password,
+		};
+
+		dispatch(changePassword(data));
 	};
 
 	const handleUpdateSettings = (e) => {
@@ -51,6 +80,44 @@ const Profile = () => {
 			enableDarkMode: form.enableDarkMode,
 		});
 	};
+
+	// effects
+
+	useEffect(() => {
+		if (updatePassError) {
+			setError(updatePassError);
+		}
+		if (modifyUserError) {
+			setError(modifyUserError);
+		}
+	}, [updatePassError, modifyUserError]);
+
+	useEffect(() => {
+		let timeout;
+		if (error) {
+			timeout = setTimeout(() => {
+				dispatch(resetUserAction());
+				setError("");
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [error]);
+
+	useEffect(() => {
+		let timeout;
+		if (passUpdated || userModified) {
+			timeout = setTimeout(() => {
+				dispatch(resetUserAction());
+				window.location.reload();
+			}, 3000);
+		}
+		return () => clearTimeout(timeout);
+	}, [passUpdated, userModified]);
+
+	useEffect(() => {
+		document.title = "ChronoTrade - Profile";
+		dispatch(getUserInfo());
+	}, []);
 
 	return (
 		<div className="flex flex-col gap-6 p-6 pt-28 md:pt-32 max-w-5xl mx-auto">
@@ -101,6 +168,18 @@ const Profile = () => {
 						Reset Password
 					</h2>
 					<form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+						<div>
+							<label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+								Current Password
+							</label>
+							<input
+								type="password"
+								name="password"
+								value={form.password}
+								onChange={handleChange}
+								className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1FA9D2] dark:bg-slate-800 dark:text-white"
+							/>
+						</div>
 						<div>
 							<label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
 								New Password
@@ -188,7 +267,7 @@ const Profile = () => {
 							<option value="UTC+8">UTC+8 (Hong Kong)</option>
 						</select>
 					</div>
-					<div className="flex items-center gap-2">
+					{/* <div className="flex items-center gap-2">
 						<input
 							type="checkbox"
 							name="enableDarkMode"
@@ -199,7 +278,7 @@ const Profile = () => {
 						<label className="text-sm text-gray-700 dark:text-gray-300">
 							Enable Dark Mode
 						</label>
-					</div>
+					</div> */}
 					<button
 						type="submit"
 						className="bg-[#1FA9D2] hover:bg-[#1784a5] text-white rounded-lg px-4 py-2 text-sm font-medium transition"
@@ -208,6 +287,35 @@ const Profile = () => {
 					</button>
 				</form>
 			</div>
+			{error && (
+				<Errormodal error={error} isOpen={true} onClose={() => setError("")} />
+			)}
+			{passUpdated ||
+				(userModified && (
+					<Successmodal
+						successText={
+							passUpdated
+								? "Password updated"
+								: userModified
+								? "User updated"
+								: null
+						}
+						isOpen={true}
+					/>
+				))}
+			{updatePassLoading ||
+				(modifyUserLoading && (
+					<Loadingmodal
+						loadingText={
+							updatePassLoading
+								? "changing password"
+								: modifyUserLoading
+								? "Updating user"
+								: null
+						}
+						isOpen={true}
+					/>
+				))}
 		</div>
 	);
 };

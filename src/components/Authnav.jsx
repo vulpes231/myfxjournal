@@ -68,7 +68,6 @@ const Authnav = () => {
 							)}
 						</span>
 					</span>
-
 					<button
 						type="button"
 						onClick={() => {
@@ -80,7 +79,7 @@ const Authnav = () => {
 					</button>
 					{/* hamburger */}
 					<span onClick={() => dispatch(setToggle())} className="sm:hidden">
-						{!toggle ? <MdMenu /> : <MdClose />}{" "}
+						{!toggle ? <MdMenu size={22} /> : <MdClose size={22} />}{" "}
 					</span>
 				</div>
 			</nav>
