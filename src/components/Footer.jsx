@@ -11,10 +11,10 @@ const Footer = () => {
 				<div className="md:col-span-2 space-y-4">
 					<Logo />
 					<p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-						Journo is a modern journal built for forex traders to record,
+						ChronoTrade is a modern journal built for forex traders to record,
 						organize, and review their trades with ease. It goes beyond simple
 						note-taking by providing powerful analytics through detailed trade
-						history. With Journo, traders can identify patterns, measure
+						history. With ChronoTrade, traders can identify patterns, measure
 						performance, and refine strategies, making it an essential tool for
 						consistent growth and trading discipline.
 					</p>
@@ -49,7 +49,7 @@ const Footer = () => {
 
 			{/* Bottom copyright */}
 			<div className="mt-10 border-t border-gray-200 dark:border-slate-700 pt-6 text-center text-xs text-gray-500 dark:text-gray-400">
-				© {new Date().getFullYear()} Journo. All rights reserved.
+				© {new Date().getFullYear()} ChronoTrade. All rights reserved.
 			</div>
 		</footer>
 	);
