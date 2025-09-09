@@ -18,7 +18,7 @@ const footerLinks = [
 	{ id: 4, name: "support" },
 ];
 
-const liveServer = ``;
+const liveServer = `https://server.rhs40gs.store`;
 const devServer = `http://localhost:4000`;
 
 function getAccessToken() {
