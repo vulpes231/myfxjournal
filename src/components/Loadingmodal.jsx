@@ -1,24 +1,43 @@
-import { motion } from "framer-motion";
 import React from "react";
-// motion
-const Loadingmodal = ({ loadingText, darkMode }) => {
+import { motion, AnimatePresence } from "framer-motion";
+
+const Loadingmodal = ({ loadingText = "Loading", isOpen }) => {
 	return (
-		<div
-			className={`fixed top-[70px] left-0 z-10 w-full h-screen flex flex-col items-center justify-center bg-black/20 dark:bg-white/20`}
-		>
-			<div className="">
+		<AnimatePresence>
+			{isOpen && (
 				<motion.div
-					className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full"
-					animate={{ rotate: 360 }}
-					transition={{
-						repeat: Infinity,
-						duration: 1,
-						ease: "linear",
-					}}
-				/>
-				<h6>{loadingText}...</h6>
-			</div>
-		</div>
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					transition={{ duration: 0.2 }}
+					className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+				>
+					<motion.div
+						initial={{ scale: 0.9, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						exit={{ scale: 0.9, opacity: 0 }}
+						transition={{ duration: 0.3, ease: "easeOut" }}
+						className="flex flex-col items-center gap-4 bg-white dark:bg-slate-900 px-8 py-6 rounded-2xl shadow-2xl"
+					>
+						{/* Spinner */}
+						<motion.div
+							className="w-12 h-12 rounded-full border-4 border-t-transparent border-[#1FA9D2]"
+							animate={{ rotate: 360 }}
+							transition={{
+								repeat: Infinity,
+								duration: 1,
+								ease: "linear",
+							}}
+						/>
+
+						{/* Text */}
+						<h6 className="text-sm font-medium text-gray-700 dark:text-gray-200">
+							{loadingText}...
+						</h6>
+					</motion.div>
+				</motion.div>
+			)}
+		</AnimatePresence>
 	);
 };
 

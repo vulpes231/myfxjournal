@@ -112,14 +112,31 @@ const Login = () => {
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal ">
 						Don't have an account?
 						<span className={`${styles.text.primary.textColor} underline`}>
-							<Link to={"/signup"}>Create account</Link>
+							<Link
+								onClick={(e) => {
+									e.preventDefault();
+									window.location.href = "/signup";
+								}}
+							>
+								Create account
+							</Link>
 						</span>
 					</p>
 				</form>
 			</div>
-			{loginLoading && <Loadingmodal loadingText={"Signing In"} />}
-			{error && <Errormodal error={error} />}
-			{accessToken && <Successmodal successText={"Login successful"} />}
+			{loginLoading && (
+				<Loadingmodal loadingText={"Signing In"} isOpen={loginLoading} />
+			)}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
+			{accessToken && (
+				<Successmodal
+					successText={"Login successful"}
+					isOpen={accessToken}
+					onClose={() => dispatch(resetLogin())}
+				/>
+			)}
 		</section>
 	);
 };

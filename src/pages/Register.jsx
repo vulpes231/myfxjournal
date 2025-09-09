@@ -154,19 +154,29 @@ const Register = () => {
 					<p className="flex items-center gap-2 justify-center text-[13px] text-[#979797] font-normal">
 						Already have an account?
 						<span className={`${styles.text.primary.textColor} underline`}>
-							<Link to={"/"}>Login now</Link>
+							<Link
+								onClick={(e) => {
+									e.preventDefault();
+									window.location.href = "/";
+								}}
+							>
+								Login now
+							</Link>
 						</span>
 					</p>
 				</form>
 			</div>
 			{registerUserLoading && (
-				<Loadingmodal loadingText={"Signing In"} darkMode={darkMode} />
+				<Loadingmodal loadingText={"Signing In"} isOpen={registerUserLoading} />
 			)}
-			{error && <Errormodal error={error} darkMode={darkMode} />}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
 			{userRegistered && (
 				<Successmodal
 					successText={"Registration successful"}
-					darkMode={darkMode}
+					isOpen={userRegistered}
+					onClose={() => dispatch(resetRegisterUser())}
 				/>
 			)}
 		</section>

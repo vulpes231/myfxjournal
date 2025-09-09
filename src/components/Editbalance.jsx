@@ -82,10 +82,21 @@ const Editbalance = ({ walletId, setModify }) => {
 				<button type="submit">update</button>
 			</form>
 			{updateBalanceLoading && (
-				<Loadingmodal loadingText={"Updating balance"} />
+				<Loadingmodal
+					loadingText={"Updating balance"}
+					isOpen={updateBalanceLoading}
+				/>
 			)}
-			{error && <Errormodal error={error} />}
-			{balanceUpdated && <Successmodal successText={"Balance updated"} />}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
+			{balanceUpdated && (
+				<Successmodal
+					successText={"Balance updated"}
+					isOpen={balanceUpdated}
+					onClose={() => dispatch(resetUpdateBalance())}
+				/>
+			)}
 		</section>
 	);
 };

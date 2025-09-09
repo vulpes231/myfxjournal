@@ -127,9 +127,22 @@ const UpdateTrade = ({ trade, closeModal }) => {
 					</button>
 				</div>
 			</form>
-			{updateTradeLoading && <Loadingmodal loadingText={"Updating Trade"} />}
-			{error && <Errormodal error={error} />}
-			{tradeUpdated && <Successmodal successText={"Trade updated."} />}
+			{updateTradeLoading && (
+				<Loadingmodal
+					loadingText={"Updating Trade"}
+					isOpen={updateTradeLoading}
+				/>
+			)}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
+			{tradeUpdated && (
+				<Successmodal
+					successText={"Trade updated."}
+					isOpen={tradeUpdated}
+					onClose={() => dispatch(resetUpdateTrade())}
+				/>
+			)}
 		</section>
 	);
 };

@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { HelpCircle, LogOut, LucideUser, LucideUserCog } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loadingmodal from "./Loadingmodal";
-import { logoutUser, selectUserSlice } from "../features/userSlice";
+import {
+	logoutUser,
+	resetLogout,
+	selectUserSlice,
+} from "../features/userSlice";
 import Errormodal from "./Errormodal";
 import Successmodal from "./Successmodal";
 
@@ -90,11 +94,15 @@ const Usermenu = () => {
 				<span className="text-sm font-medium">Logout</span>
 			</button>
 			{error ? (
-				<Errormodal error={error} />
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
 			) : loggedOut ? (
-				<Successmodal successText={"Logout success!"} />
+				<Successmodal
+					successText={"Logout success!"}
+					isOpen={loggedOut}
+					onClose={() => dispatch(resetLogout())}
+				/>
 			) : logoutLoading ? (
-				<Loadingmodal loadingText={"Logging out"} />
+				<Loadingmodal loadingText={"Logging out"} isOpen={logoutLoading} />
 			) : null}
 		</div>
 	);

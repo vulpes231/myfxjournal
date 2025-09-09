@@ -6,6 +6,7 @@ import { setDarkMode, setToggle } from "../features/navSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import Mobilemenu from "./Mobilemenu";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -26,33 +27,12 @@ const Navbar = () => {
 							: "hidden md:flex gap-10 items-center"
 					}`}
 				>
-					<AnimatePresence>
-						{toggle && (
-							<motion.div
-								initial={{ opacity: 0, y: -20 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -20 }}
-								transition={{ duration: 0.3, ease: "easeOut" }}
-								className="flex flex-col gap-4 md:hidden w-full px-6 py-4 bg-white dark:bg-black shadow-md"
-							>
-								{navLinks.map((link) => (
-									<motion.li
-										key={link.id}
-										initial={{ opacity: 0, x: -10 }}
-										animate={{ opacity: 1, x: 0 }}
-										exit={{ opacity: 0, x: -10 }}
-										transition={{ duration: 0.2, delay: link.id * 0.05 }}
-										className="hover:text-[#1FA9D2] cursor-pointer"
-									>
-										<Link to={link.path} onClick={() => dispatch(setToggle())}>
-											{link.name}
-										</Link>
-									</motion.li>
-								))}
-							</motion.div>
-						)}
-					</AnimatePresence>
-
+					<Mobilemenu
+						toggle={toggle}
+						links={navLinks} // or authLinks
+						onClose={() => dispatch(setToggle())}
+						variant="main" // or "auth"
+					/>
 					{/* Desktop links */}
 					{!toggle &&
 						navLinks.map((link) => (

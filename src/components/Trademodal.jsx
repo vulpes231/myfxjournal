@@ -192,9 +192,18 @@ const Trademodal = ({ showModal, closeModal }) => {
 					add trade
 				</button>
 			</form>
-			{createTradeLoading && <Loadingmodal loadingText={"Creating trade"} />}
-			{tradeCreated && <Successmodal successText={"Trade Created."} />}
-			{error && <Errormodal error={error} />}
+			{createTradeLoading && (
+				<Loadingmodal
+					loadingText={"Creating trade"}
+					isOpen={createTradeLoading}
+				/>
+			)}
+			{tradeCreated && (
+				<Successmodal successText={"Trade Created."} isOpen={tradeCreated} />
+			)}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
 		</div>
 	);
 };

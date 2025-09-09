@@ -1,19 +1,45 @@
 import React from "react";
-import { MdCheckCircle } from "react-icons/md";
+import { MdCheckCircle, MdClose } from "react-icons/md";
+import { motion, AnimatePresence } from "framer-motion";
 
-const Successmodal = ({ successText, darkMode }) => {
+const Successmodal = ({ successText, onClose, isOpen }) => {
 	return (
-		<div
-			className={`${
-				!darkMode ? "bg-white shadow-sm" : "bg-black border border-slate-700"
-			} fixed top-[80px] right-[10px] z-30 w-[280px] flex flex-col gap-2 items-center justify-center text-green-500 p-6 rounded-[5px]`}
-		>
-			<div className="flex items-center gap-1">
-				<MdCheckCircle />
-				<h3 className="font-bold text-[14px]">Success</h3>
-			</div>
-			<h6 className="text-[13px]">{successText}</h6>
-		</div>
+		<AnimatePresence>
+			{isOpen && (
+				<motion.div
+					initial={{ opacity: 0, y: -20 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -20 }}
+					transition={{ duration: 0.3, ease: "easeOut" }}
+					className="fixed top-20 right-4 z-50 w-[320px] rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-green-200 dark:border-green-800"
+				>
+					<div className="flex items-start gap-3 p-4">
+						{/* Icon */}
+						<div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400">
+							<MdCheckCircle size={22} />
+						</div>
+
+						{/* Text */}
+						<div className="flex-1">
+							<h3 className="text-sm font-semibold text-green-600 dark:text-green-400">
+								Success
+							</h3>
+							<p className="mt-1 text-sm text-gray-700 dark:text-gray-300 leading-snug">
+								{successText}
+							</p>
+						</div>
+
+						{/* Close button */}
+						<button
+							onClick={onClose}
+							className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition"
+						>
+							<MdClose size={18} />
+						</button>
+					</div>
+				</motion.div>
+			)}
+		</AnimatePresence>
 	);
 };
 

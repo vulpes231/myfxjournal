@@ -122,9 +122,18 @@ const Closetrade = ({ trade, closeModal }) => {
 					</button>
 				</div>
 			</form>
-			{closeTradeLoading && <Loadingmodal loadingText={"Closing Trade"} />}
-			{error && <Errormodal error={error} />}
-			{tradeClosed && <Successmodal successText={"Trade closed."} />}
+			{closeTradeLoading && (
+				<Loadingmodal
+					loadingText={"Closing Trade"}
+					isOpen={closeTradeLoading}
+				/>
+			)}
+			{error && (
+				<Errormodal error={error} isOpen={error} onClose={() => setError("")} />
+			)}
+			{tradeClosed && (
+				<Successmodal successText={"Trade closed."} isOpen={tradeClosed} />
+			)}
 		</section>
 	);
 };
