@@ -19,10 +19,9 @@ const Profile = () => {
 		password: "",
 		newPassword: "",
 		confirmPassword: "",
-		defaultPair: "XAUUSD",
-		riskPerTrade: 1,
-		timezone: "UTC+0",
-		// enableDarkMode: false,
+		currency: user?.currency || "USD",
+		riskPerTrade: user?.settings?.maxRiskPerTrade || 1,
+		timezone: user?.settings?.utc || "UTC+0",
 	});
 	const [error, setError] = useState("");
 
@@ -48,6 +47,8 @@ const Profile = () => {
 		const data = {
 			username: form.username,
 			email: form.email,
+			riskPerTrade: form.riskPerTrade,
+			timezone: form.timezone,
 		};
 
 		dispatch(editUserInfo(data));
@@ -69,16 +70,6 @@ const Profile = () => {
 		};
 
 		dispatch(changePassword(data));
-	};
-
-	const handleUpdateSettings = (e) => {
-		e.preventDefault();
-		console.log("Update settings:", {
-			defaultPair: form.defaultPair,
-			riskPerTrade: form.riskPerTrade,
-			timezone: form.timezone,
-			enableDarkMode: form.enableDarkMode,
-		});
 	};
 
 	// effects
@@ -108,6 +99,7 @@ const Profile = () => {
 		if (passUpdated || userModified) {
 			timeout = setTimeout(() => {
 				dispatch(resetUserAction());
+				dispatch(getUserInfo());
 				window.location.reload();
 			}, 3000);
 		}
@@ -116,7 +108,6 @@ const Profile = () => {
 
 	useEffect(() => {
 		document.title = "ChronoTrade - Profile";
-		dispatch(getUserInfo());
 	}, []);
 
 	return (
@@ -219,21 +210,21 @@ const Profile = () => {
 				<h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
 					Journal Settings
 				</h2>
-				<form onSubmit={handleUpdateSettings} className="flex flex-col gap-4">
+				<form onSubmit={handleUpdateProfile} className="flex flex-col gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-							Default Trading Pair
+							Currency
 						</label>
 						<select
-							name="defaultPair"
-							value={form.defaultPair}
+							name="currency"
+							value={form.currency}
 							onChange={handleChange}
 							className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm dark:bg-slate-800 dark:text-white"
 						>
-							<option value="XAUUSD">XAUUSD</option>
-							<option value="EURUSD">EURUSD</option>
-							<option value="GBPUSD">GBPUSD</option>
-							<option value="BTCUSD">BTCUSD</option>
+							<option value="USD">USD</option>
+							<option value="EUR">EUR</option>
+							<option value="GBP">GPB</option>
+							<option value="CAD">CAD</option>
 						</select>
 					</div>
 					<div>
@@ -267,18 +258,7 @@ const Profile = () => {
 							<option value="UTC+8">UTC+8 (Hong Kong)</option>
 						</select>
 					</div>
-					{/* <div className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							name="enableDarkMode"
-							checked={form.enableDarkMode}
-							onChange={handleChange}
-							className="h-4 w-4 rounded border-gray-300 text-[#1FA9D2] focus:ring-[#1FA9D2]"
-						/>
-						<label className="text-sm text-gray-700 dark:text-gray-300">
-							Enable Dark Mode
-						</label>
-					</div> */}
+
 					<button
 						type="submit"
 						className="bg-[#1FA9D2] hover:bg-[#1784a5] text-white rounded-lg px-4 py-2 text-sm font-medium transition"
@@ -290,32 +270,18 @@ const Profile = () => {
 			{error && (
 				<Errormodal error={error} isOpen={true} onClose={() => setError("")} />
 			)}
-			{passUpdated ||
-				(userModified && (
-					<Successmodal
-						successText={
-							passUpdated
-								? "Password updated"
-								: userModified
-								? "User updated"
-								: null
-						}
-						isOpen={true}
-					/>
-				))}
-			{updatePassLoading ||
-				(modifyUserLoading && (
-					<Loadingmodal
-						loadingText={
-							updatePassLoading
-								? "changing password"
-								: modifyUserLoading
-								? "Updating user"
-								: null
-						}
-						isOpen={true}
-					/>
-				))}
+			{passUpdated && (
+				<Successmodal successText={"Password updated."} isOpen={true} />
+			)}
+			{userModified && (
+				<Successmodal successText={"Profile updated."} isOpen={true} />
+			)}
+			{updatePassLoading && (
+				<Loadingmodal loadingText={"Changing password"} isOpen={true} />
+			)}
+			{modifyUserLoading && (
+				<Loadingmodal loadingText={"Updating user"} isOpen={true} />
+			)}
 		</div>
 	);
 };

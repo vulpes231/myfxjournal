@@ -35,9 +35,9 @@ export const getUserInfo = createAsyncThunk(
 
 export const changePassword = createAsyncThunk(
 	"user/changePassword",
-	async (_, { rejectWithValue }) => {
+	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.post("/user/update-password");
+			const response = await api.post("/user/update-password", formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
@@ -52,9 +52,9 @@ export const changePassword = createAsyncThunk(
 
 export const editUserInfo = createAsyncThunk(
 	"user/editUserInfo",
-	async (_, { rejectWithValue }) => {
+	async (formData, { rejectWithValue }) => {
 		try {
-			const response = await api.put("/user");
+			const response = await api.put("/user", formData);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(

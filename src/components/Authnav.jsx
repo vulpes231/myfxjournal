@@ -52,7 +52,7 @@ const Authnav = () => {
 							</li>
 						))}
 				</ul>
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-2">
 					<span
 						className={`flex items-center cursor-pointer ${styles.secondary.gap}`}
 					>
@@ -73,9 +73,9 @@ const Authnav = () => {
 						onClick={() => {
 							setShowMenu((prev) => !prev);
 						}}
-						// className={`${styles.button.bgColor} rounded-[10px] w-6 h-6 `}
+						className={`cursor-pointer`}
 					>
-						<LucideUserCircle2 />
+						<LucideUserCircle2 className={showMenu ? "text-[#1fa9d2]" : ""} />
 					</button>
 					{/* hamburger */}
 					<span onClick={() => dispatch(setToggle())} className="sm:hidden">

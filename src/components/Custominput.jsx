@@ -33,7 +33,7 @@ const Custominput = ({
 				placeholder={placeHolder}
 				autoCapitalize="off"
 				autoComplete="off"
-				className={`w-full h-[48px] px-4 py-2 text-[15px] rounded-lg border ${
+				className={`w-full h-[48px] px-4 py-2 text-[16px] rounded-lg border ${
 					error
 						? "border-red-500 focus:border-red-500 focus:ring-red-400"
 						: "border-slate-300 dark:border-slate-600 focus:border-[#1FA9D2] focus:ring-[#1FA9D2]"

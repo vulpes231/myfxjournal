@@ -66,7 +66,7 @@ const Wallet = () => {
 	return (
 		<div className="">
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 capitalize">
-				<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full">
+				<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-6 flex flex-col justify-between w-full gap-6">
 					<select
 						name="selectedWalletId"
 						onChange={handleSelect}
@@ -76,7 +76,7 @@ const Wallet = () => {
 						<option value="">Select Wallet</option>
 						{userWallets?.map((wallet) => (
 							<option value={wallet._id} key={wallet._id}>
-								{wallet.name === "wallet 1" && "Trade Account"}
+								{wallet.name === "wallet 1" && "Forex Account"}
 							</option>
 						))}
 					</select>
