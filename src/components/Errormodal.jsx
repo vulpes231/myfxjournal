@@ -11,7 +11,7 @@ const Errormodal = ({ error, onClose, isOpen }) => {
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, y: -20 }}
 					transition={{ duration: 0.3, ease: "easeOut" }}
-					className="fixed top-20 right-4 z-50 w-[320px] rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-red-200 dark:border-red-800"
+					className="fixed top-20 right-1 md:right-4 z-50 w-[270px] md:w-[320px] rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-red-200 dark:border-red-800"
 				>
 					<div className="flex items-start gap-3 p-4">
 						{/* Icon */}
