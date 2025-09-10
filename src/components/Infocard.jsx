@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const Infocard = ({ icon, title, value, footer }) => {
+const Infocard = ({ icon, title, value, footer, color }) => {
 	return (
 		<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md hover:shadow-lg transition-all p-6 flex flex-col items-center justify-between text-center w-full">
 			{/* Icon */}
@@ -23,10 +23,12 @@ const Infocard = ({ icon, title, value, footer }) => {
 				<div className="mt-4 w-full border-t border-gray-200 dark:border-gray-700 pt-2 text-xs text-gray-500 dark:text-gray-400 flex justify-between">
 					{footer.map((item, index) => (
 						<div key={index} className="flex flex-col items-center w-1/2">
-							<span className="font-semibold text-gray-800 dark:text-gray-200 text-[16px] md:text-[20px]">
+							<span
+								className={`font-semibold  text-[16px] md:text-[20px] text-gray-800 dark:text-gray-200 `}
+							>
 								{item.value}
 							</span>
-							<span>{item.label}</span>
+							<span className="pl">{item.label}</span>
 						</div>
 					))}
 				</div>

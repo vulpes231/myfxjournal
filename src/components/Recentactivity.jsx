@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectTradeSlice } from "../features/tradeSlice";
 import { eur, gbp, gold, jpy, usa } from "../assets";
@@ -71,15 +71,15 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 									Entry
 								</th>
 								<th className={`${styles.table.th} font-semibold`}>
-									SL / Amount
+									SL / Return
 								</th>
 								<th className={`${styles.table.th} font-semibold`}>
-									TP / Amount
+									TP / Return
 								</th>
 								<th
 									className={`${styles.table.th} hidden md:table-cell font-semibold`}
 								>
-									Status / Result
+									Status / Resulzt
 								</th>
 								<th
 									className={`${styles.table.th} hidden md:table-cell font-semibold`}
@@ -172,11 +172,21 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 												<h3 className="font-medium">
 													{trade.execution.takeProfit.point}
 												</h3>
-												<small className="text-green-500 text-[11px]">
-													+$
-													{parseFloat(
-														trade.execution.takeProfit.usdValue
-													).toFixed(2)}
+												<small
+													className={`${
+														trade.performance.totalReturn < 0
+															? "text-red-500"
+															: "text-green-500"
+													} text-green-500 text-[11px]`}
+												>
+													$
+													{trade.performance.status === "closed"
+														? parseFloat(trade.performance.totalReturn).toFixed(
+																2
+														  )
+														: parseFloat(
+																trade.execution.takeProfit.usdValue
+														  ).toFixed(2)}
 												</small>
 											</div>
 										</td>
@@ -188,12 +198,20 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 													className={`px-2 py-1 rounded-lg text-xs font-medium ${
 														trade.performance.status === "open"
 															? "bg-green-100 text-green-600"
-															: "bg-red-100 text-red-600"
+															: "bg-slate-100 text-slate-600"
 													} text-center`}
 												>
 													{trade.performance.status}
 												</span>
-												<small className="text-[11px] text-slate-500">
+												<small
+													className={`text-[11px] capitalize ${
+														trade.performance.result === "loss"
+															? "text-red-500"
+															: trade.performance.result === "pending"
+															? "text-yellow-500"
+															: "text-green-500"
+													}`}
+												>
 													{trade.performance.result || "pending"}
 												</small>
 											</div>

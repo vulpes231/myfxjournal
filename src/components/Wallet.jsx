@@ -108,6 +108,7 @@ const Wallet = () => {
 						{ label: "open", value: tradeAnalytics?.totalOpen },
 						{ label: "closed", value: tradeAnalytics?.totalClosed },
 					]}
+					// color={"text-gray-800 dark:text-gray-200"}
 				/>
 
 				<Infocard
@@ -121,6 +122,7 @@ const Wallet = () => {
 						},
 						{ label: "trades won", value: tradeAnalytics?.totalWins },
 					]}
+					// color={"text-gray-800 dark:text-gray-200"}
 				/>
 
 				<Infocard
@@ -137,6 +139,9 @@ const Wallet = () => {
 							value: `$${parseFloat(tradeAnalytics?.totalLoss).toFixed(2)}`,
 						},
 					]}
+					// color={
+					// 	tradeAnalytics?.totalProfit ? "text-green-500" : "text-green-500"
+					// }
 				/>
 			</div>
 			{modifyBalance && (

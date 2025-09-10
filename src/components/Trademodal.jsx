@@ -86,7 +86,7 @@ const Trademodal = ({ showModal, closeModal }) => {
 		>
 			<form
 				onSubmit={handleSubmit}
-				className="w-full max-w-2xl bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-lg space-y-6 animate-fadeIn h-[430px] overflow-y-auto"
+				className="w-full max-w-2xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-lg space-y-6 animate-fadeIn h-[430px] overflow-y-auto"
 			>
 				{/* Header */}
 				<div className="flex justify-between items-center border-b pb-3">

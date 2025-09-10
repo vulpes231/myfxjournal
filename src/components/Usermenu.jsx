@@ -6,11 +6,13 @@ import Loadingmodal from "./Loadingmodal";
 import {
 	logoutUser,
 	resetLogout,
+	selectCurrentUser,
 	selectUserSlice,
 	selectUsername,
 } from "../features/userSlice";
 import Errormodal from "./Errormodal";
 import Successmodal from "./Successmodal";
+import { MdAnalytics } from "react-icons/md";
 
 const menuLinks = [
 	{
@@ -25,6 +27,12 @@ const menuLinks = [
 		path: "/support",
 		icon: <HelpCircle size={18} />,
 	},
+	{
+		id: "analytics",
+		name: "Analytics",
+		path: "/analytics",
+		icon: <MdAnalytics size={18} />,
+	},
 ];
 
 const Usermenu = ({ onClose }) => {
@@ -33,7 +41,7 @@ const Usermenu = ({ onClose }) => {
 
 	const [error, setError] = useState("");
 
-	const username = useSelector(selectUsername);
+	const user = useSelector(selectCurrentUser);
 
 	const { logoutLoading, logoutError, loggedOut } =
 		useSelector(selectUserSlice);
@@ -65,7 +73,7 @@ const Usermenu = ({ onClose }) => {
 			{/* Username */}
 			<span className="font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
 				<LucideUser />
-				<h6 className="capitalize">{username}</h6>
+				<h6 className="capitalize">{user?.username}</h6>
 			</span>
 
 			<hr className="border-gray-200 dark:border-slate-700" />
@@ -77,6 +85,9 @@ const Usermenu = ({ onClose }) => {
 						key={link.id}
 						// to={link.path}
 						onClick={() => {
+							// if (user.plan === "free") {
+							// 	window.location.reload();
+							// }
 							window.location.href = link.path;
 							onClose();
 						}}

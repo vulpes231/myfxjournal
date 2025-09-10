@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Recentactivity from "../components/Recentactivity";
 import { getAccessToken } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import {
 const Trades = () => {
 	const token = getAccessToken();
 	const dispatch = useDispatch();
+	const [totalPL, setTotalPL] = useState(0);
 
 	const { tradeAnalytics } = useSelector(selectAnalyticSlice);
 
@@ -22,10 +23,17 @@ const Trades = () => {
 			dispatch(getTradeAnalytics());
 		}
 	}, [token]);
+	useEffect(() => {
+		if (tradeAnalytics) {
+			const total =
+				parseFloat(tradeAnalytics.totalProfit) +
+				parseFloat(tradeAnalytics.totalLoss);
+			setTotalPL(total);
+		}
+	}, [tradeAnalytics]);
 
-	const profitLoss = parseFloat(
-		tradeAnalytics?.totalProfit - tradeAnalytics?.totalLoss
-	).toFixed(2);
+	// const calc = (tradeAnalytics.totalProfit += tradeAnalytics.totalLoss);
+	const profitLoss = 0; //parseFloat(calc).toFixed(2);
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 bg-gray-50 dark:bg-slate-950">
@@ -76,9 +84,9 @@ const Trades = () => {
 						</p>
 						<p
 							className={`text-xl font-bold ${
-								profitLoss > 0 ? "text-green-500" : "text-red-500"
+								totalPL > 0 ? "text-green-500" : "text-red-500"
 							} `}
-						>{`$${profitLoss || 0}`}</p>
+						>{`$${parseFloat(totalPL).toFixed(2) || 0}`}</p>
 					</div>
 				</div>
 
