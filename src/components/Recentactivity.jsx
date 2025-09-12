@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { selectTradeSlice } from "../features/tradeSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserTrades, selectTradeSlice } from "../features/tradeSlice";
 import { eur, gbp, gold, jpy, usa } from "../assets";
 import { format } from "date-fns";
 import { styles } from "../styles";
@@ -10,9 +10,17 @@ import Closetrade from "./Closetrade";
 import { formatNumber } from "../constants";
 
 const Recentactivity = ({ tableTitle, showFooter, count }) => {
+	const dispatch = useDispatch();
 	const { userTrades, tradesPagination } = useSelector(selectTradeSlice);
 	const [page, setPage] = useState(tradesPagination?.currentPage || 1);
 	const [tradeData, setTradeData] = useState(null);
+	const [query, setQuery] = useState({
+		sortBy: "createdAt",
+		filterBy: "",
+		filterValue: "",
+		page: 1,
+		limit: 15,
+	});
 
 	const [action, setAction] = useState("");
 
@@ -35,6 +43,10 @@ const Recentactivity = ({ tableTitle, showFooter, count }) => {
 	};
 
 	const docCount = count > 0 ? count : userTrades.length;
+
+	useEffect(() => {
+		dispatch(getUserTrades(query));
+	}, [query]);
 
 	return (
 		<div className="bg-white dark:bg-slate-900 rounded-2xl shadow-md p-4 md:p-6">

@@ -25,6 +25,7 @@ const Trades = () => {
 			dispatch(getTradeAnalytics());
 		}
 	}, [token]);
+
 	useEffect(() => {
 		if (tradeAnalytics) {
 			const total =

@@ -39,9 +39,12 @@ export const createTrade = createAsyncThunk(
 
 export const getUserTrades = createAsyncThunk(
 	"trade/getUserTrades",
-	async (_, { rejectWithValue }) => {
+	async (queryData, { rejectWithValue }) => {
 		try {
-			const response = await api.get("/trade");
+			const { sortBy, filterBy } = queryData;
+			const response = await api.get(
+				`/trade/?sortBy=${sortBy}&filterBy=${filterBy}`
+			);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(
