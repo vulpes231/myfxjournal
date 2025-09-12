@@ -21,16 +21,25 @@ const Infocard = ({ icon, title, value, footer, color }) => {
 			{/* Footer (extra info) */}
 			{footer && (
 				<div className="mt-4 w-full border-t border-gray-200 dark:border-gray-700 pt-2 text-xs text-gray-500 dark:text-gray-400 flex justify-between">
-					{footer.map((item, index) => (
-						<div key={index} className="flex flex-col items-center w-1/2">
-							<span
-								className={`font-semibold  text-[16px] md:text-[20px] text-gray-800 dark:text-gray-200 `}
-							>
-								{item.value}
-							</span>
-							<span className="pl">{item.label}</span>
-						</div>
-					))}
+					{footer.map((item, index) => {
+						const isProfit = item.label.toLowerCase() === "profit";
+						const isLoss = item.label.toLowerCase() === "loss";
+
+						return (
+							<div key={index} className="flex flex-col items-center w-1/2">
+								<span
+									className={`font-semibold text-[16px] md:text-[20px] 
+							${isProfit ? "text-emerald-600" : ""} 
+							${isLoss ? "text-red-600" : ""} 
+							${!isProfit && !isLoss ? "text-gray-800 dark:text-gray-200" : ""}
+						`}
+								>
+									{item.value}
+								</span>
+								<span>{item.label}</span>
+							</div>
+						);
+					})}
 				</div>
 			)}
 		</div>

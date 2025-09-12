@@ -29,6 +29,17 @@ function getAccessToken() {
 	return token;
 }
 
+// * Format numbers using Intl.NumberFormat
+// * @param {number} value - The number to format
+// * @param {string} [locale="en-US"] - The locale for formatting (default en-US)
+// * @param {Object} [options={}] - Intl.NumberFormat options (style, currency, etc.)
+// * @returns {string} - The formatted number
+// */
+function formatNumber(value, locale = "en-US", options = {}) {
+	const formatter = new Intl.NumberFormat(locale, options);
+	return formatter.format(value);
+}
+
 export {
 	navLinks,
 	authLinks,
@@ -36,4 +47,5 @@ export {
 	liveServer,
 	devServer,
 	footerLinks,
+	formatNumber,
 };

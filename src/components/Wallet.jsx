@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserWallets, selectUserWallets } from "../features/walletSlice";
-import { getAccessToken } from "../constants";
+import { formatNumber, getAccessToken } from "../constants";
 import Infocard from "./Infocard";
 
 import {
@@ -132,16 +132,19 @@ const Wallet = () => {
 					footer={[
 						{
 							label: "profit",
-							value: `$${parseFloat(tradeAnalytics?.totalProfit).toFixed(2)}`,
+							value: `${formatNumber(tradeAnalytics?.totalProfit, "en-US", {
+								style: "currency",
+								currency: "USD",
+							})}`,
 						},
 						{
 							label: "loss",
-							value: `$${parseFloat(tradeAnalytics?.totalLoss).toFixed(2)}`,
+							value: `${formatNumber(tradeAnalytics?.totalLoss, "en-US", {
+								style: "currency",
+								currency: "USD",
+							})}`,
 						},
 					]}
-					// color={
-					// 	tradeAnalytics?.totalProfit ? "text-green-500" : "text-green-500"
-					// }
 				/>
 			</div>
 			{modifyBalance && (

@@ -86,10 +86,10 @@ const Trademodal = ({ showModal, closeModal }) => {
 		>
 			<form
 				onSubmit={handleSubmit}
-				className="w-full max-w-2xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-lg space-y-6 animate-fadeIn h-[430px] overflow-y-auto"
+				className="w-full max-w-2xl mx-auto bg-white dark:bg-slate-900 p-6 md:p-8 rounded-sm shadow-lg space-y-6 animate-fadeIn h-[490px] overflow-y-auto"
 			>
 				{/* Header */}
-				<div className="flex justify-between items-center border-b pb-3">
+				<div className="flex justify-between items-center border-b border-slate-300 dark:border-slate-700 pb-3">
 					<h3 className="text-xl md:text-2xl font-semibold">Add a New Trade</h3>
 					<MdClose
 						className="w-6 h-6 cursor-pointer hover:text-red-500 transition"
@@ -161,7 +161,7 @@ const Trademodal = ({ showModal, closeModal }) => {
 				</div>
 
 				{/* Actions */}
-				<div className="flex justify-end gap-4 pt-4 border-t">
+				<div className="flex justify-end gap-4 pt-4 border-t border-slate-300 dark:border-slate-700">
 					<button
 						type="button"
 						onClick={closeModal}

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Recentactivity from "../components/Recentactivity";
-import { getAccessToken } from "../constants";
+import { formatNumber, getAccessToken } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	getTradeAnalytics,
 	selectAnalyticSlice,
 } from "../features/analyticSlice";
+import Trademodal from "../components/Trademodal";
 
 const Trades = () => {
 	const token = getAccessToken();
 	const dispatch = useDispatch();
 	const [totalPL, setTotalPL] = useState(0);
+	const [showModal, setshowModal] = useState(false);
 
 	const { tradeAnalytics } = useSelector(selectAnalyticSlice);
 
@@ -32,8 +34,9 @@ const Trades = () => {
 		}
 	}, [tradeAnalytics]);
 
-	// const calc = (tradeAnalytics.totalProfit += tradeAnalytics.totalLoss);
-	const profitLoss = 0; //parseFloat(calc).toFixed(2);
+	const closeModal = () => {
+		setshowModal(false);
+	};
 
 	return (
 		<section className="p-6 w-full min-h-screen pt-28 md:pt-32 bg-gray-50 dark:bg-slate-950">
@@ -51,14 +54,15 @@ const Trades = () => {
 
 					{/* Actions */}
 					<div className="flex items-center gap-3 mt-4 md:mt-0">
-						<input
-							type="text"
-							placeholder="Search trades..."
-							className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-blue-500"
-						/>
-						<button className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
-							Export CSV
+						<button
+							className="px-5 py-2.5 md:px-6 md:py-3 capitalize rounded-lg text-white font-semibold shadow-md bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 transition-all"
+							onClick={() => setshowModal(true)}
+						>
+							Enter Trade
 						</button>
+						{/* <button className="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
+							Export CSV
+						</button> */}
 					</div>
 				</div>
 
@@ -86,12 +90,16 @@ const Trades = () => {
 							className={`text-xl font-bold ${
 								totalPL > 0 ? "text-green-500" : "text-red-500"
 							} `}
-						>{`$${parseFloat(totalPL).toFixed(2) || 0}`}</p>
+						>{`${formatNumber(totalPL, "en-US", {
+							style: "currency",
+							currency: "USD",
+						})}`}</p>
 					</div>
 				</div>
 
 				{/* Table */}
 				<Recentactivity tableTitle={"Trades"} showFooter={true} />
+				<Trademodal showModal={showModal} closeModal={closeModal} />
 			</div>
 		</section>
 	);
